@@ -46,8 +46,8 @@ def reData(txt, year):
     """
     m = re.search(ur'''
         \s*wl\["(?P<event>earth|monuments|africa)"\]\[(?P<year>20\d\d)]\ ?=\ ?\{|
-        \s*\["(?P<country>[-a-z]+)"\]\ =\ \{\["start"\]\ =\ (?P<start>%s\d{10}),\ \["end"\]\ =\ (?P<end>%s\d{10})\}
-        ''' % (year, year), txt, re.X)
+        \s*\["(?P<country>[-a-z]+)"\]\ =\ \{\["start"\]\ =\ (?P<start>%s\d{10}),\ \["end"\]\ =\ (?P<end>%s\d\d{10})\}
+        ''' % (year, str(year)[:3]), txt, re.X)
     return m and m.groupdict()
 
 
