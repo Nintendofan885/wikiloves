@@ -1,0 +1,115 @@
+{
+  "monuments2016": {
+    "Turkey": {
+      "count": 5,
+      "category": "Images_from_Wiki_Loves_Monuments_2016_in_Turkey",
+      "end": 20160930205959,
+      "users": {
+        "Interfase": {
+          "count": 5,
+          "usage": 0,
+          "reg": 20071014181956
+        }
+      },
+      "start": 20160831210000,
+      "userreg": 0,
+      "usage": 0,
+      "data": {
+        "20160903": 5
+      },
+      "usercount": 1
+    },
+    "Panama": {
+      "count": 26,
+      "category": "Images_from_Wiki_Loves_Monuments_2016_in_Panama",
+      "end": 20161001045959,
+      "users": {
+        "Jonas David": {
+          "count": 4,
+          "usage": 0,
+          "reg": 20160902064618
+        },
+        "Edwin Bermudez": {
+          "count": 22,
+          "usage": 0,
+          "reg": 20160903173639
+        }
+      },
+      "start": 20160901050000,
+      "userreg": 2,
+      "usage": 0,
+      "data": {
+        "20160902": 4,
+        "20160903": 22
+      },
+      "usercount": 2
+    }
+  },
+  "earth2015": {
+    "Turkey": {
+      "count": 5,
+      "category": "Images_from_Wiki_Loves_Monuments_2016_in_Turkey",
+      "end": 20160930205959,
+      "users": {
+        "Interfase": {
+          "count": 5,
+          "usage": 0,
+          "reg": 20071014181956
+        }
+      },
+      "start": 20160831210000,
+      "userreg": 0,
+      "usage": 0,
+      "data": {
+        "20160903": 5
+      },
+      "usercount": 1
+    },
+    "Panama": {
+      "count": 26,
+      "category": "Images_from_Wiki_Loves_Monuments_2016_in_Panama",
+      "end": 20161001045959,
+      "users": {
+        "Jonas David": {
+          "count": 4,
+          "usage": 0,
+          "reg": 20160902064618
+        },
+        "Edwin Bermudez": {
+          "count": 22,
+          "usage": 0,
+          "reg": 20160903173639
+        }
+      },
+      "start": 20160901050000,
+      "userreg": 2,
+      "usage": 0,
+      "data": {
+        "20160902": 4,
+        "20160903": 22
+      },
+      "usercount": 2
+    }
+  },
+  "africa2014": {
+    "Benin": {
+      "count": 5,
+      "category": "Images_from_Wiki_Loves_Africa_2014_in_Benin",
+      "end": 20160930205959,
+      "users": {
+        "Foo": {
+          "count": 2,
+          "usage": 0,
+          "reg": 20071014181956
+        }
+      },
+      "start": 20160831210000,
+      "userreg": 0,
+      "usage": 0,
+      "data": {
+        "20160903": 2
+      },
+      "usercount": 1
+    }
+  }
+}
