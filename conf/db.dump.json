@@ -111,5 +111,26 @@
       },
       "usercount": 1
     }
+  },
+  "public_art2013": {
+    "Austria": {
+      "count": 5,
+      "category": "Images_from_Wiki_Loves_Public_Art_2014_in_Austria",
+      "end": 20130930205959,
+      "users": {
+        "Baz": {
+          "count": 2,
+          "usage": 0,
+          "reg": 20131014181956
+        }
+      },
+      "start": 20130831210000,
+      "userreg": 0,
+      "usage": 0,
+      "data": {
+        "20130903": 2
+      },
+      "usercount": 1
+    }
   }
 }
