@@ -1,0 +1,14 @@
+version: '2'
+services:
+  web:
+    build:
+      context: .
+      dockerfile: conf/Dockerfile.web
+    command: python wikiloves.py
+    ports:
+     - 5000:5000
+    volumes:
+     - .:/code
+     - ./conf/db.dump.json:/code/db.json
+    environment:
+      - LOCAL_ENVIRONMENT=True

@@ -150,5 +150,7 @@ if __name__ == '__main__':
         from flup.server.fcgi_fork import WSGIServer
         WSGIServer(app).run()
     else:
-        # Roda fora do Labs
-        app.run()
+        if os.environ.get('LOCAL_ENVIRONMENT', False):
+            app.run(host='0.0.0.0')
+        else:
+            app.run()
