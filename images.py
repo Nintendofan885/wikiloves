@@ -1,6 +1,8 @@
 # -*- coding: utf-8  -*-
 
-import oursql, os
+import os
+import oursql
+
 
 def makeQuery(args):
     if u'event' in args and u'year' in args and u'country' in args:

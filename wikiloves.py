@@ -1,9 +1,14 @@
 #!/usr/bin/python
 # -*- coding: utf-8  -*-
 
-from flask import Flask, render_template, request, make_response
-import json, os, time, re
+import json
+import os
 from os.path import getmtime
+import re
+import time
+
+from flask import Flask, render_template, request, make_response
+
 import images
 
 app = Flask(__name__)

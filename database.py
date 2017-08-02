@@ -1,8 +1,12 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-import re, json, sys, time
-import oursql, os
+import json
+import os
+import re
+import sys
+import time
+import oursql
 from collections import defaultdict
 from urllib import urlopen
 
