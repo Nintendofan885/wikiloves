@@ -37,7 +37,7 @@ def makeQuery(args):
 def get(args):
     sql = makeQuery(args)
     try:
-        conn = connection = oursql.connect(
+        conn = oursql.connect(
                 db='commonswiki_p', host='s4.labsdb',
                 read_default_file=os.path.expanduser('~/replica.my.cnf'))
         c = conn.cursor()
