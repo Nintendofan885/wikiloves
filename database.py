@@ -116,11 +116,15 @@ dbquery = u'''SELECT
  INNER JOIN user ON img_user = user_id'''
 
 
+def get_category_name(name, country):
+    category = u'Images_from_Wiki_Loves_%s_%s_in_' % (name[0:-4].title(), name[-4:])
+    return category + catExceptions.get(country, country.replace(' ', u'_'))
+
+
 def getData(name, data):
     """
     Coleta dados do banco de dados e processa
     """
-    category = u'Images_from_Wiki_Loves_%s_%s_in_' % (name[0:-4].title(), name[-4:])
 
     starttime = min(data[c]['start'] for c in data if 'start' in data[c])
     endtime = max(data[c]['end'] for c in data if 'end' in data[c])
@@ -128,7 +132,7 @@ def getData(name, data):
     for country in data.keys():
         if country[0].islower():
             updateLog.append(u'')
-        cat = category + catExceptions.get(country, country.replace(' ', u'_'))
+        cat = get_category_name(name, country)
         if name == 'monuments2010':
             cat = u'Images_from_Wiki_Loves_Monuments_2010'
         commonsdb.query(dbquery, (cat,))
