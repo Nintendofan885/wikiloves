@@ -33,6 +33,7 @@ var data = [
 <table style="text-align:center; border-collapse:collapse; min-width:500px; margin-top:8px">
     <tr>
         <th>Year</th>
+        <th>Countries</th>
         <th style="background-color:{{bg_color_1}}; color:white">Uploads</th>
         <th style="background-color:{{bg_color_2}}">Images used<br/>in the wikis</th>
         <th style="background-color:#2266AA; color:white">Uploaders</th>
@@ -41,6 +42,7 @@ var data = [
     {% for year, d in  data[name]|dictsort -%}
     <tr>
         <td><a href="{{ url_for('index') }}{{ name }}/{{ year }}">{{ year }}</a></td>
+        <td>{{ d['country_count'] }}</td>
         <td style="background-color:#F8F8F8">{{ d['count'] }}</td>
         <td>{{ d['usage'] }} ({{ (100 * d['usage'] / d['count'] if d['count'] != 0 else 0)|int }}%)</td>
         <td style="background-color:#F8F8F8">{{ d['usercount'] }}</td>

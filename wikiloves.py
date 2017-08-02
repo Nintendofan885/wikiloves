@@ -27,7 +27,9 @@ def loadDB():
         {'count': sum(db[e][c]['count'] for c in db[e]),
          'usercount': sum(db[e][c]['usercount'] for c in db[e]),
          'userreg': sum(db[e][c]['userreg'] for c in db[e]),
-         'usage': sum(db[e][c]['usage'] for c in db[e])}
+         'usage': sum(db[e][c]['usage'] for c in db[e]),
+         'country_count': len(db[e])
+         }
         for e in db if e[:-4] == name} for name in set(e[:-4] for e in db)}
     cData = {}
     for e in db:
