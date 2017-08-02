@@ -36,13 +36,16 @@ def makeQuery(args):
 
 def get(args):
     sql = makeQuery(args)
-    conn = connection = oursql.connect(
-            db='commonswiki_p', host='s4.labsdb',
-            read_default_file=os.path.expanduser('~/replica.my.cnf'))
-    c = conn.cursor()
-    c.execute(*sql)
-    imgs = [(i[0].decode('utf-8'), i[1], int(i[2]), int(i[3]), i[4], i[5], i[6]) for i in c.fetchall()]
-    return imgs
+    try:
+        conn = connection = oursql.connect(
+                db='commonswiki_p', host='s4.labsdb',
+                read_default_file=os.path.expanduser('~/replica.my.cnf'))
+        c = conn.cursor()
+        c.execute(*sql)
+        imgs = [(i[0].decode('utf-8'), i[1], int(i[2]), int(i[3]), i[4], i[5], i[6]) for i in c.fetchall()]
+        return imgs
+    except oursql.InterfaceError:
+        return None
 
 
 def minmax(pmin, pmax, prefix, func=None):
