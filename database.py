@@ -12,17 +12,21 @@ from urllib import urlopen
 
 updateLog = []
 
+
 class DB:
     """
     Classe para fazer consultas ao banco de dados
     """
     def __init__(self):
         self.connect()
+
     def connect(self):
-        self.conn = oursql.connect(db='commonswiki_p', host='commonswiki.labsdb',
+        self.conn = oursql.connect(
+            db='commonswiki_p', host='commonswiki.labsdb',
             read_default_file=os.path.expanduser('~/replica.my.cnf'),
             read_timeout=10, charset='utf8', use_unicode=True, autoping=True)
         self.cursor = self.conn.cursor()
+
     def query(self, *sql):
         """
         Tenta fazer a consulta, reconecta até 10 vezes até conseguir
@@ -41,8 +45,10 @@ class DB:
                     break
             else:
                 break
+
     def get(self):
         return self.cursor.fetchall()
+
 
 def reData(txt, year):
     """
@@ -61,7 +67,7 @@ def getConfig(page):
     """
     api = urlopen('https://commons.wikimedia.org/w/api.php?action=query&format=json&prop=revisions&titles=%s&rvprop=content' % page)
     text = json.loads(api.read())['query']['pages'].values()[0]['revisions'][0]['*']
-    
+
     data, event, prefixes = {}, None, {}
     lines = iter(text.split(u'\n'))
     for l in lines:
@@ -109,12 +115,12 @@ dbquery = u'''SELECT
  INNER JOIN image ON page_title = img_name
  INNER JOIN user ON img_user = user_id'''
 
+
 def getData(name, data):
     """
     Coleta dados do banco de dados e processa
     """
-    category = u'Images_from_Wiki_Loves_%s_%s_in_' % \
-            (name[0:-4].title(), name[-4:])
+    category = u'Images_from_Wiki_Loves_%s_%s_in_' % (name[0:-4].title(), name[-4:])
 
     starttime = min(data[c]['start'] for c in data if 'start' in data[c])
     endtime = max(data[c]['end'] for c in data if 'end' in data[c])
@@ -142,8 +148,8 @@ def getData(name, data):
 
         cData = {'starttime': data[country].get('start', starttime),
                  'endtime': data[country].get('end', endtime),
-                 'data': defaultdict(int), # data: {timestamp_day0: n, timestamp_day1: n,...}
-                 'users': {}} # users: {'user1': {'count': n, 'usage': n, 'reg': timestamp},...}
+                 'data': defaultdict(int),  # data: {timestamp_day0: n, timestamp_day1: n,...}
+                 'users': {}}  # users: {'user1': {'count': n, 'usage': n, 'reg': timestamp},...}
 
         for timestamp, usage, user, user_reg in dbData:
             # Desconsidera timestamps fora do período da campanha

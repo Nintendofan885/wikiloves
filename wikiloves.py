@@ -16,6 +16,7 @@ app.debug = True
 
 dbtime = None
 
+
 def loadDB():
     global db, menu, mainData, cData, dbtime
     mtime = getmtime('db.json')
@@ -45,15 +46,17 @@ def loadDB():
 
 loadDB()
 
+
 @app.route('/')
 def index():
     countries = {c: [(cData[c]['earth'].keys() if 'earth' in cData[c] else None),
                      (cData[c]['monuments'].keys() if 'monuments' in cData[c] else None),
                      (cData[c]['africa'].keys() if 'africa' in cData[c] else None),
                      (cData[c]['public_art'].keys() if 'public_art' in cData[c] else None)]
-            for c in cData}
+                 for c in cData}
     return render_template('mainpage.html', title=u'Wiki Loves Competitions Tools', menu=menu,
             data=mainData, countries=countries)
+
 
 @app.route('/log')
 def logpage():
@@ -67,6 +70,7 @@ def logpage():
         log = timestamp = None
     return render_template('log.html', title=u'Update log', menu=menu, time=timestamp, log=log)
 
+
 @app.route('/monuments', defaults={'name': 'monuments'})
 @app.route('/earth', defaults={'name': 'earth'})
 @app.route('/africa', defaults={'name': 'africa'})
@@ -77,11 +81,12 @@ def event_main(name):
     if name in mainData:
         eventName = get_event_name(name)
         eventData = {name: {y: v for y, v in mainData[name].iteritems()}}
-        eventData.update(countries = {c: cData[c][e] for c in cData
+        eventData.update(countries={c: cData[c][e] for c in cData
             for e in cData[c] if e == name})
         return render_template('eventmain.html', title=eventName, menu=menu, name=name, data=eventData)
     else:
         return render_template('page_not_found.html', title=u'Event not found', menu=menu)
+
 
 def get_event_name(name):
     """
@@ -90,6 +95,7 @@ def get_event_name(name):
     Returns title case with underscore replaced.
     """
     return u'Wiki Loves %s' % name.replace('_', ' ').title()
+
 
 @app.route('/monuments/20<year>', defaults={'name': 'monuments'})
 @app.route('/earth/20<year>', defaults={'name': 'earth'})
@@ -108,6 +114,7 @@ def event_year(name, year):
                                data=eventData, rickshaw=True)
     else:
         return render_template('page_not_found.html', title=u'Event not found', menu=menu)
+
 
 @app.route('/monuments/20<year>/<country>', defaults={'name': 'monuments'})
 @app.route('/earth/20<year>/<country>', defaults={'name': 'earth'})
@@ -128,6 +135,7 @@ def users(name, year, country):
     else:
         return render_template('page_not_found.html', title=u'Event not found', menu=menu)
 
+
 @app.route('/country/<name>')
 def country(name):
     if name in cData:
@@ -135,6 +143,7 @@ def country(name):
                 data=cData[name], country=name)
     else:
         return render_template('page_not_found.html', title=u'Country not found', menu=menu)
+
 
 @app.route('/images')
 def images_page():
@@ -147,6 +156,7 @@ def images_page():
         get_event_name(args['event']), args['year'], args['country'])
     return render_template('images.html', menu=menu, title=title, images=imgs, backto=backto)
 
+
 @app.route('/db.json')
 def download():
     response = make_response(json.dumps(db))
@@ -154,11 +164,13 @@ def download():
     response.headers["Content-type"] = "application/json"
     return response
 
+
 @app.template_filter(name='date')
 def date_filter(s):
     if type(s) == int:
         s = str(s)
     return '%s.%s.%s' % (s[6:8], s[4:6], s[0:4])
+
 
 @app.errorhandler(404)
 def page_not_found(error):
