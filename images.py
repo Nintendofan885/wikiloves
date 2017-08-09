@@ -55,10 +55,10 @@ def minmax(pmin, pmax, prefix, func=None):
         if pmax:
             expr = ' BETWEEN {} AND {}'.format(pmin, pmax)
         else:
-            expr = ' >= {}'.format(m[0])
+            expr = ' >= {}'.format(m[0])  # noqa
     else:
         if pmin:
-            expr = ' <= {}'.format(m[1])
+            expr = ' <= {}'.format(m[1])  # noqa
         else:
             expr = ''
     return expr and prefix + expr

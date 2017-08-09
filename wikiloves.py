@@ -44,6 +44,7 @@ def loadDB():
                 'count': db[e][c]['count'], 'usercount': db[e][c]['usercount'],
                 'usage': db[e][c]['usage'], 'userreg': db[e][c]['userreg']}})
 
+
 loadDB()
 
 
@@ -170,6 +171,7 @@ def date_filter(s):
 @app.errorhandler(404)
 def page_not_found(error):
     return render_template('page_not_found.html', title=u'Page not found', menu=menu), 404
+
 
 if __name__ == '__main__':
     if os.uname()[1].startswith('tools-webgrid'):

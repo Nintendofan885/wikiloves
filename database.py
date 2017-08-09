@@ -92,6 +92,7 @@ def getConfig(page):
 
     return {name: config for name, config in data.items() if config}
 
+
 catExceptions = {
     u'Netherlands': u'the_Netherlands',
     u'Czech Republic': u'the_Czech_Republic',
@@ -100,6 +101,7 @@ catExceptions = {
     u'United Kingdom': u'the_United_Kingdom',
     u'United States': u'the_United_States'
 }
+
 
 dbquery = u'''SELECT
  img_timestamp,
