@@ -71,6 +71,7 @@ def logpage():
     return render_template('log.html', title=u'Update log', menu=menu, time=timestamp, log=log)
 
 
+# All routes are explicit as we cannot just route /<name>/ as it would also route eg /images/
 @app.route('/monuments', defaults={'name': 'monuments'})
 @app.route('/earth', defaults={'name': 'earth'})
 @app.route('/africa', defaults={'name': 'africa'})
@@ -97,10 +98,7 @@ def get_event_name(name):
     return u'Wiki Loves %s' % name.replace('_', ' ').title()
 
 
-@app.route('/monuments/20<year>', defaults={'name': 'monuments'})
-@app.route('/earth/20<year>', defaults={'name': 'earth'})
-@app.route('/africa/20<year>', defaults={'name': 'africa'})
-@app.route('/public_art/20<year>', defaults={'name': 'public_art'})
+@app.route('/<name>/20<year>')
 def event_year(name, year):
     loadDB()
     if not db:
@@ -116,10 +114,7 @@ def event_year(name, year):
         return render_template('page_not_found.html', title=u'Event not found', menu=menu)
 
 
-@app.route('/monuments/20<year>/<country>', defaults={'name': 'monuments'})
-@app.route('/earth/20<year>/<country>', defaults={'name': 'earth'})
-@app.route('/africa/20<year>/<country>', defaults={'name': 'africa'})
-@app.route('/public_art/20<year>/<country>', defaults={'name': 'public_art'})
+@app.route('/<name>/20<year>/<country>')
 def users(name, year, country):
     if not db:
         return index()
