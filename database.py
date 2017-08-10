@@ -106,7 +106,7 @@ catExceptions = {
 dbquery = u'''SELECT
  img_timestamp,
  img_name IN (SELECT DISTINCT gil_to FROM globalimagelinks) AS image_in_use,
- user_name,
+ user.user_name as name,
  user_registration
  FROM (SELECT
    cl_to,
@@ -115,7 +115,9 @@ dbquery = u'''SELECT
    WHERE cl_to = ? AND cl_type = 'file') cats
  INNER JOIN page ON cl_from = page_id
  INNER JOIN image ON page_title = img_name
- INNER JOIN user ON img_user = user_id'''
+ LEFT JOIN oldimage ON image.img_name = oldimage.oi_name AND oldimage.oi_timestamp = (SELECT MIN(o.oi_timestamp) FROM oldimage o WHERE o.oi_name = image.img_name)
+ LEFT JOIN user ON user.user_id = COALESCE(oldimage.oi_user, image.img_user)
+'''
 
 
 def get_category_name(name, country):
