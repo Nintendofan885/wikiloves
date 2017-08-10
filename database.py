@@ -61,13 +61,13 @@ def reData(txt, year):
     return m and m.groupdict()
 
 
-def getConfig(page):
-    """
-    Lê a configuração da página de configuração no Commons
-    """
+def get_config_from_commons(page):
     api = urlopen('https://commons.wikimedia.org/w/api.php?action=query&format=json&prop=revisions&titles=%s&rvprop=content' % page)
     text = json.loads(api.read())['query']['pages'].values()[0]['revisions'][0]['*']
+    return text
 
+
+def parse_config(text):
     data, event, prefixes = {}, None, {}
     lines = iter(text.split(u'\n'))
     for l in lines:
@@ -91,6 +91,14 @@ def getConfig(page):
             data[event][prefixes[g['country']]] = {'start': int(g['start']), 'end': int(g['end'])}
 
     return {name: config for name, config in data.items() if config}
+
+
+def getConfig(page):
+    """
+    Lê a configuração da página de configuração no Commons
+    """
+    text = get_config_from_commons(page)
+    return parse_config(text)
 
 
 catExceptions = {
