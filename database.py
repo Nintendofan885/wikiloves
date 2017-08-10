@@ -105,7 +105,7 @@ catExceptions = {
 
 dbquery = u'''SELECT
  img_timestamp,
- img_name IN (SELECT DISTINCT gil_to FROM globalimagelinks),
+ img_name IN (SELECT DISTINCT gil_to FROM globalimagelinks) AS image_in_use,
  user_name,
  user_registration
  FROM (SELECT
