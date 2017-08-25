@@ -128,7 +128,7 @@ dbquery = u'''SELECT
 '''
 
 
-def get_category_name(name, country):
+def get_wikiloves_category_name(name, country):
     category = u'Images_from_Wiki_Loves_%s_%s_in_' % (name[0:-4].title(), name[-4:])
     return category + catExceptions.get(country, country.replace(' ', u'_'))
 
@@ -144,7 +144,7 @@ def getData(name, data):
     for country in data.keys():
         if country[0].islower():
             updateLog.append(u'')
-        cat = get_category_name(name, country)
+        cat = get_wikiloves_category_name(name, country)
         if name == 'monuments2010':
             cat = u'Images_from_Wiki_Loves_Monuments_2010'
         commonsdb.query(dbquery, (cat,))
