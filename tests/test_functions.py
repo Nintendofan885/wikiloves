@@ -18,6 +18,10 @@ class TestGetWikilovesCategoryName(unittest.TestCase):
         expected = u'Images_from_Wiki_Loves_Earth_2016_in_the_Netherlands'
         self.assertEqual(result, expected)
 
+    def test_get_wikiloves_category_name_using_special_exception(self):
+        result = functions.get_wikiloves_category_name("Monuments", "2017", "Austria")
+        expected = u'Media from WikiDaheim 2017 in Austria/Cultural heritage monuments'
+        self.assertEqual(result, expected)
 
 if __name__ == "__main__":
     unittest.main()
