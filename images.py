@@ -3,10 +3,13 @@
 import os
 import oursql
 
+from functions import get_wikiloves_category_name
+
 
 def makeQuery(args):
     if u'event' in args and u'year' in args and u'country' in args:
-        queryArgs = (u'Images_from_Wiki_Loves_%s_%s_in_%s' % (args['event'].title(), args['year'], args['country']),)
+        category = get_wikiloves_category_name(args['event'].title(), args['year'], args['country'])
+        queryArgs = (category,)
     else:
         return
     start = 'start' in args and args.get('start').isdigit() and int(args.get('start')) or 0
