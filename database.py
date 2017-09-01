@@ -102,6 +102,7 @@ def getConfig(page):
 
 
 catExceptions = {
+    u'Armenia': u'Armenia_&_Nagorno-Karabakh',
     u'Netherlands': u'the_Netherlands',
     u'Czech Republic': u'the_Czech_Republic',
     u'Dutch Caribbean': u'the_Dutch_Caribbean',
