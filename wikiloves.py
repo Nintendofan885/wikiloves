@@ -3,11 +3,11 @@
 
 import json
 import os
-from os.path import getmtime
 import re
 import time
+from os.path import getmtime
 
-from flask import Flask, render_template, request, make_response
+from flask import Flask, make_response, render_template, request
 
 import images
 

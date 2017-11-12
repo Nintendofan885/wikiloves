@@ -6,12 +6,12 @@ import os
 import re
 import sys
 import time
-import oursql
 from collections import defaultdict
 from urllib import urlopen
 
-from functions import get_wikiloves_category_name
+import oursql
 
+from functions import get_wikiloves_category_name
 
 updateLog = []
 

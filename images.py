@@ -1,6 +1,7 @@
 # -*- coding: utf-8  -*-
 
 import os
+
 import oursql
 
 from functions import get_wikiloves_category_name
