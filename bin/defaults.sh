@@ -5,3 +5,4 @@ echo_time() {
 # Paths
 : ${HOME_DIR:=/data/project/wikiloves}
 : ${SOURCE_PATH:=$HOME_DIR/wikiloves}
+: ${VIRTUAL_ENV_PATH:=$HOME_DIR/.venv}

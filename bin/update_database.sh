@@ -7,6 +7,9 @@ CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 cd $SOURCE_PATH || exit
 
+# Use a virtual environment with our requirements
+source $VIRTUAL_ENV_PATH/bin/activate
+
 echo_time "Starting database update."
 
 python database.py update
