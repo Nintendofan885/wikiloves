@@ -2,11 +2,10 @@
 #
 # Script to update the JSON database
 
-echo_time() {
-    echo "$(date +%F_%T) $*"
-}
+CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+. $CURRENT_DIR/defaults.sh
 
-cd ~/wikiloves || exit
+cd $SOURCE_PATH || exit
 
 echo_time "Starting database update."
 
