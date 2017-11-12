@@ -23,5 +23,6 @@ class TestGetWikilovesCategoryName(unittest.TestCase):
         expected = u'Media from WikiDaheim 2017 in Austria/Cultural heritage monuments'
         self.assertEqual(result, expected)
 
+
 if __name__ == "__main__":
     unittest.main()

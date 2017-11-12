@@ -26,7 +26,7 @@ def loadDB():
     try:
         with open('db.json', 'r') as f:
             db = json.load(f)
-    except:
+    except IOError:
         db = None
     menu = {name: sorted(e[-4:] for e in db if e[:-4] == name) for name in set(e[:-4] for e in db)}
     mainData = {name: {e[-4:]:
@@ -67,7 +67,7 @@ def logpage():
         timestamp = time.strftime('%H:%M, %d %B %Y', time.strptime(log[:14], '%Y%m%d%H%M%S'))
         log = re.sub(ur'\[\[([^]]+)\]\]', lambda m: u'<a href="https://commons.wikimedia.org/wiki/%s">%s</a>' %
                 (m.group(1).replace(u' ', u'_'), m.group(1)), log[15:]).split(u'\n')
-    except:
+    except IOError:
         log = timestamp = None
     return render_template('log.html', title=u'Update log', menu=menu, time=timestamp, log=log)
 

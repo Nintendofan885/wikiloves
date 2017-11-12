@@ -1,10 +1,12 @@
 # -*- coding: utf-8  -*-
 
+
 def get_wikiloves_category_name(event, year, country):
     if (event, year, country) in special_exceptions:
         return special_exceptions[(event, year, country)]
     category = u'Images_from_Wiki_Loves_%s_%s_in_' % (event, year)
     return category + catExceptions.get(country, country.replace(' ', u'_'))
+
 
 catExceptions = {
     u'Armenia': u'Armenia_&_Nagorno-Karabakh',
