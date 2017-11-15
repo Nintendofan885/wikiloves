@@ -25,7 +25,7 @@ class DB:
 
     def connect(self):
         self.conn = oursql.connect(
-            db='commonswiki_p', host='commonswiki.labsdb',
+            db='commonswiki_p', host='commonswiki.analytics.db.svc.eqiad.wmflabs',
             read_default_file=os.path.expanduser('~/replica.my.cnf'),
             read_timeout=30, charset='utf8', use_unicode=True, autoping=True)
         self.cursor = self.conn.cursor()
