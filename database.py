@@ -9,7 +9,7 @@ import time
 from collections import defaultdict
 from urllib import urlopen
 
-import oursql
+import pymysql
 
 from functions import get_wikiloves_category_name
 
@@ -24,10 +24,12 @@ class DB:
         self.connect()
 
     def connect(self):
-        self.conn = oursql.connect(
-            db='commonswiki_p', host='commonswiki.analytics.db.svc.eqiad.wmflabs',
+        self.conn = pymysql.connect(
+            db='commonswiki_p',
+            host='commonswiki.analytics.db.svc.eqiad.wmflabs',
             read_default_file=os.path.expanduser('~/replica.my.cnf'),
-            read_timeout=30, charset='utf8', use_unicode=True, autoping=True)
+            read_timeout=30, charset='utf8', use_unicode=True)
+        self.conn.ping(True)
         self.cursor = self.conn.cursor()
 
     def query(self, *sql):
@@ -38,7 +40,7 @@ class DB:
         while True:
             try:
                 self.cursor.execute(*sql)
-            except (AttributeError, oursql.OperationalError):
+            except (AttributeError, pymysql.err.OperationalError):
                 if loops < 10:
                     loops += 1
                     print 'Erro no DB, esperando %ds antes de tentar de novo' % loops
@@ -125,7 +127,7 @@ dbquery = u'''SELECT
    cl_to,
    cl_from
    FROM categorylinks
-   WHERE cl_to = ? AND cl_type = 'file') cats
+   WHERE cl_to = %s AND cl_type = 'file') cats
  INNER JOIN page ON cl_from = page_id
  INNER JOIN image ON page_title = img_name
  LEFT JOIN oldimage ON image.img_name = oldimage.oi_name AND oldimage.oi_timestamp = (SELECT MIN(o.oi_timestamp) FROM oldimage o WHERE o.oi_name = image.img_name)

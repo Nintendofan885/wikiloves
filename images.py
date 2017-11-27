@@ -2,7 +2,7 @@
 
 import os
 
-import oursql
+import pymysql
 
 from functions import get_wikiloves_category_name
 
@@ -41,14 +41,14 @@ def makeQuery(args):
 def get(args):
     sql = makeQuery(args)
     try:
-        conn = oursql.connect(
+        conn = pymysql.connect(
                 db='commonswiki_p', host='s4.labsdb',
                 read_default_file=os.path.expanduser('~/replica.my.cnf'))
         c = conn.cursor()
         c.execute(*sql)
         imgs = [(i[0].decode('utf-8'), i[1], int(i[2]), int(i[3]), i[4], i[5], i[6]) for i in c.fetchall()]
         return imgs
-    except oursql.InterfaceError:
+    except (AttributeError, pymysql.err.OperationalError):
         return None
 
 
