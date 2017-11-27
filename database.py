@@ -157,14 +157,8 @@ def getData(name, data):
         cat = get_wikiloves_category_name(event, year, country)
         if name == 'monuments2010':
             cat = u'Images_from_Wiki_Loves_Monuments_2010'
-        query_data = commonsdb.query(dbquery, (cat,))
 
-        dbData = tuple(
-            (int(timestamp),
-             bool(usage),
-             user.decode('utf-8'),
-             int(user_reg or 0))
-            for timestamp, usage, user, user_reg in query_data)
+        dbData = get_data_for_category(cat)
 
         if not dbData:
             updateLog.append(u'%s in %s is configurated, but no file was found in [[Category:%s]]' %
@@ -199,6 +193,22 @@ def getData(name, data):
         data[country]['category'] = cat
 
     return data
+
+
+def get_data_for_category(category_name):
+    """Query the database for a given category
+
+    Return: Tuple of tuples (<timestamp>, <in use>, <User>, <registration>)
+    (20140529121626, False, u'Example', 20140528235032)
+    """
+    query_data = commonsdb.query(dbquery, (category_name,))
+    dbData = tuple(
+        (int(timestamp),
+         bool(usage),
+         user.decode('utf-8'),
+         int(user_reg or 0))
+        for timestamp, usage, user, user_reg in query_data)
+    return dbData
 
 
 if __name__ == '__main__' and 'update' in sys.argv:
