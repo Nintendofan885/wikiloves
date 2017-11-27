@@ -3,6 +3,8 @@
 
 import unittest
 
+import mock
+
 import database
 
 
@@ -33,6 +35,51 @@ class TestReData(unittest.TestCase):
             u'start': '20170430200000'
         }
         self.assertEqual(result, expected)
+
+
+class TestGetData(unittest.TestCase):
+
+    def setUp(self):
+        patcher = mock.patch('database.get_data_for_category', autospec=True)
+        self.mock_get_data_for_category = patcher.start()
+        self.mock_get_data_for_category.return_value = (
+            (20140529121626, False, u'Alice', 20140528235032),
+            (20140523121626, False, u'Bob', 20140523235032),
+        )
+        self.addCleanup(patcher.stop)
+
+    def test_GetData(self):
+        competition_config = {
+            u'Brazil': {'start': 20140501030000, 'end': 20140601025959},
+        }
+
+        result = database.getData("Dumplings2014", competition_config)
+
+        expected = {
+            u'Brazil': {
+                'count': 2,
+                'usercount': 2,
+                'start': 20140501030000,
+                'userreg': 2,
+                'data': {'20140523': 1, '20140529': 1},
+                'users': {
+                    u'Alice': {
+                        'count': 1,
+                        'reg': 20140528235032,
+                        'usage': 0
+                    },
+                    u'Bob': {
+                        'count': 1,
+                        'reg': 20140523235032,
+                        'usage': 0
+                    }
+                },
+                'usage': 0,
+                'category': u'Images_from_Wiki_Loves_Dumplings_2014_in_Brazil',
+                'end': 20140601025959
+            }
+        }
+        self.assertEquals(result, expected)
 
 
 if __name__ == "__main__":
