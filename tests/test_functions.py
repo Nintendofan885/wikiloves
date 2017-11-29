@@ -20,7 +20,7 @@ class TestGetWikilovesCategoryName(unittest.TestCase):
 
     def test_get_wikiloves_category_name_using_special_exception(self):
         result = functions.get_wikiloves_category_name("Monuments", "2017", "Austria")
-        expected = u'Media from WikiDaheim 2017 in Austria/Cultural heritage monuments'
+        expected = u'Media_from_WikiDaheim_2017_in_Austria/Cultural_heritage_monuments'
         self.assertEqual(result, expected)
 
 
