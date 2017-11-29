@@ -20,8 +20,6 @@ class DB:
     """
     Classe para fazer consultas ao banco de dados
     """
-    def __init__(self):
-        self.connect()
 
     def connect(self):
         self.conn = pymysql.connect(
@@ -30,29 +28,37 @@ class DB:
             read_default_file=os.path.expanduser('~/replica.my.cnf'),
             read_timeout=30, charset='utf8', use_unicode=True)
         self.conn.ping(True)
-        self.cursor = self.conn.cursor()
+
+    def _query(self, *sql):
+        with self.conn.cursor() as cursor:
+            cursor.execute(*sql)
+            return cursor.fetchall()
 
     def query(self, *sql):
         """
         Tenta fazer a consulta, reconecta até 10 vezes até conseguir
         """
         loops = 0
+        self.connect()
         while True:
             try:
-                self.cursor.execute(*sql)
+                return self._query(*sql)
             except (AttributeError, pymysql.err.OperationalError):
                 if loops < 10:
                     loops += 1
                     print 'Erro no DB, esperando %ds antes de tentar de novo' % loops
                     time.sleep(loops)
                 else:
-                    self.cursor.execute(*sql)
+                    return self._query(*sql)
                     break
             else:
+                print "Uncaught exception when running query"
+                print sql
                 break
+        self.close_connection()
 
-    def get(self):
-        return self.cursor.fetchall()
+    def close_connection(self):
+        self.conn.close()
 
 
 def reData(txt, year):
@@ -151,14 +157,14 @@ def getData(name, data):
         cat = get_wikiloves_category_name(event, year, country)
         if name == 'monuments2010':
             cat = u'Images_from_Wiki_Loves_Monuments_2010'
-        commonsdb.query(dbquery, (cat,))
+        query_data = commonsdb.query(dbquery, (cat,))
 
         dbData = tuple(
             (int(timestamp),
              bool(usage),
              user.decode('utf-8'),
              int(user_reg or 0))
-            for timestamp, usage, user, user_reg in commonsdb.get())
+            for timestamp, usage, user, user_reg in query_data)
 
         if not dbData:
             updateLog.append(u'%s in %s is configurated, but no file was found in [[Category:%s]]' %
