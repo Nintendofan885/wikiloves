@@ -2,6 +2,7 @@
 """Unit tests for database.py."""
 
 import unittest
+from collections import defaultdict
 
 import mock
 
@@ -55,13 +56,16 @@ class TestGetData(unittest.TestCase):
 
         result = database.getData("Dumplings2014", competition_config)
 
+        expected_timestamp_data = defaultdict(int)
+        expected_timestamp_data.update({'20140523': 1, '20140529': 1})
+
         expected = {
             u'Brazil': {
                 'count': 2,
                 'usercount': 2,
                 'start': 20140501030000,
                 'userreg': 2,
-                'data': {'20140523': 1, '20140529': 1},
+                'data': expected_timestamp_data,
                 'users': {
                     u'Alice': {
                         'count': 1,

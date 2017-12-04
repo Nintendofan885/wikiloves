@@ -150,6 +150,9 @@ def getData(name, data):
     default_endtime = max(data[c]['end'] for c in data if 'end' in data[c])
 
     for country_name, country_config in data.iteritems():
+
+        country_data = {}
+
         if country_name[0].islower():
             updateLog.append(u'')
         event = name[0:-4].title()
@@ -183,14 +186,18 @@ def getData(name, data):
             if usage:
                 cData['users'][user]['usage'] += 1
 
-        data.setdefault(country_name, {}).update(
+        country_data.update(
             {'data': cData['data'], 'users': cData['users']})
-        data[country_name]['usercount'] = len(cData['users'])
-        data[country_name]['count'] = sum(u['count'] for u in cData['users'].itervalues())
-        data[country_name]['usage'] = sum(u['usage'] for u in cData['users'].itervalues())
-        data[country_name]['userreg'] = sum(1 for u in cData['users'].itervalues() if u['reg'] > cData['starttime']) \
+        country_data['usercount'] = len(cData['users'])
+        country_data['count'] = sum(u['count'] for u in cData['users'].itervalues())
+        country_data['usage'] = sum(u['usage'] for u in cData['users'].itervalues())
+        country_data['userreg'] = sum(1 for u in cData['users'].itervalues() if u['reg'] > cData['starttime']) \
             if 'starttime' in cData else 0
-        data[country_name]['category'] = cat
+        country_data['category'] = cat
+        country_data['start'] = country_config['start']
+        country_data['end'] = country_config['end']
+
+        data[country_name] = country_data
 
     return data
 
