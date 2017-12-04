@@ -149,12 +149,12 @@ def getData(name, data):
     starttime = min(data[c]['start'] for c in data if 'start' in data[c])
     endtime = max(data[c]['end'] for c in data if 'end' in data[c])
 
-    for country in data.keys():
-        if country[0].islower():
+    for country_name in data.keys():
+        if country_name[0].islower():
             updateLog.append(u'')
         event = name[0:-4].title()
         year = name[-4:]
-        cat = get_wikiloves_category_name(event, year, country)
+        cat = get_wikiloves_category_name(event, year, country_name)
         if name == 'monuments2010':
             cat = u'Images_from_Wiki_Loves_Monuments_2010'
 
@@ -162,12 +162,12 @@ def getData(name, data):
 
         if not dbData:
             updateLog.append(u'%s in %s is configurated, but no file was found in [[Category:%s]]' %
-                             (name, country, cat.replace(u'_', u' ')))
-            del data[country]
+                             (name, country_name, cat.replace(u'_', u' ')))
+            del data[country_name]
             continue
 
-        cData = {'starttime': data[country].get('start', starttime),
-                 'endtime': data[country].get('end', endtime),
+        cData = {'starttime': data[country_name].get('start', starttime),
+                 'endtime': data[country_name].get('end', endtime),
                  'data': defaultdict(int),  # data: {timestamp_day0: n, timestamp_day1: n,...}
                  'users': {}}  # users: {'user1': {'count': n, 'usage': n, 'reg': timestamp},...}
 
@@ -183,14 +183,14 @@ def getData(name, data):
             if usage:
                 cData['users'][user]['usage'] += 1
 
-        data.setdefault(country, {}).update(
+        data.setdefault(country_name, {}).update(
             {'data': cData['data'], 'users': cData['users']})
-        data[country]['usercount'] = len(cData['users'])
-        data[country]['count'] = sum(u['count'] for u in cData['users'].itervalues())
-        data[country]['usage'] = sum(u['usage'] for u in cData['users'].itervalues())
-        data[country]['userreg'] = sum(1 for u in cData['users'].itervalues() if u['reg'] > cData['starttime']) \
+        data[country_name]['usercount'] = len(cData['users'])
+        data[country_name]['count'] = sum(u['count'] for u in cData['users'].itervalues())
+        data[country_name]['usage'] = sum(u['usage'] for u in cData['users'].itervalues())
+        data[country_name]['userreg'] = sum(1 for u in cData['users'].itervalues() if u['reg'] > cData['starttime']) \
             if 'starttime' in cData else 0
-        data[country]['category'] = cat
+        data[country_name]['category'] = cat
 
     return data
 
