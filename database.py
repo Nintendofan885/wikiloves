@@ -152,8 +152,6 @@ def getData(name, data):
 
     for country_name, country_config in data.iteritems():
 
-        if country_name[0].islower():
-            updateLog.append(u'')
         event = name[0:-4].title()
         year = name[-4:]
         cat = get_wikiloves_category_name(event, year, country_name)
