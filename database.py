@@ -148,10 +148,9 @@ def getData(name, data):
 
     default_starttime = min(data[c]['start'] for c in data if 'start' in data[c])
     default_endtime = max(data[c]['end'] for c in data if 'end' in data[c])
+    result_data = {}
 
     for country_name, country_config in data.iteritems():
-
-        country_data = {}
 
         if country_name[0].islower():
             updateLog.append(u'')
@@ -161,45 +160,52 @@ def getData(name, data):
         if name == 'monuments2010':
             cat = u'Images_from_Wiki_Loves_Monuments_2010'
 
-        dbData = get_data_for_category(cat)
-
-        if not dbData:
+        country_data = get_country_data(cat, country_config, default_starttime, default_endtime)
+        if country_data:
+            result_data[country_name] = country_data
+        else:
             updateLog.append(u'%s in %s is configurated, but no file was found in [[Category:%s]]' %
                              (name, country_name, cat.replace(u'_', u' ')))
-            del data[country_name]
+    return result_data
+
+
+def get_country_data(cat, country_config, default_starttime, default_endtime):
+    country_data = {}
+
+    dbData = get_data_for_category(cat)
+
+    if not dbData:
+        return None
+
+    cData = {'starttime': country_config.get('start', default_starttime),
+             'endtime': country_config.get('end', default_endtime),
+             'data': defaultdict(int),  # data: {timestamp_day0: n, timestamp_day1: n,...}
+             'users': {}}  # users: {'user1': {'count': n, 'usage': n, 'reg': timestamp},...}
+
+    for timestamp, usage, user, user_reg in dbData:
+        # Desconsidera timestamps fora do período da campanha
+        if not cData['starttime'] <= timestamp <= cData['endtime']:
             continue
+        # Conta imagens por dia
+        cData['data'][str(timestamp)[0:8]] += 1
+        if user not in cData['users']:
+            cData['users'][user] = {'count': 0, 'usage': 0, 'reg': user_reg}
+        cData['users'][user]['count'] += 1
+        if usage:
+            cData['users'][user]['usage'] += 1
 
-        cData = {'starttime': country_config.get('start', default_starttime),
-                 'endtime': country_config.get('end', default_endtime),
-                 'data': defaultdict(int),  # data: {timestamp_day0: n, timestamp_day1: n,...}
-                 'users': {}}  # users: {'user1': {'count': n, 'usage': n, 'reg': timestamp},...}
+    country_data.update(
+        {'data': cData['data'], 'users': cData['users']})
+    country_data['usercount'] = len(cData['users'])
+    country_data['count'] = sum(u['count'] for u in cData['users'].itervalues())
+    country_data['usage'] = sum(u['usage'] for u in cData['users'].itervalues())
+    country_data['userreg'] = sum(1 for u in cData['users'].itervalues() if u['reg'] > cData['starttime']) \
+        if 'starttime' in cData else 0
+    country_data['category'] = cat
+    country_data['start'] = country_config['start']
+    country_data['end'] = country_config['end']
 
-        for timestamp, usage, user, user_reg in dbData:
-            # Desconsidera timestamps fora do período da campanha
-            if not cData['starttime'] <= timestamp <= cData['endtime']:
-                continue
-            # Conta imagens por dia
-            cData['data'][str(timestamp)[0:8]] += 1
-            if user not in cData['users']:
-                cData['users'][user] = {'count': 0, 'usage': 0, 'reg': user_reg}
-            cData['users'][user]['count'] += 1
-            if usage:
-                cData['users'][user]['usage'] += 1
-
-        country_data.update(
-            {'data': cData['data'], 'users': cData['users']})
-        country_data['usercount'] = len(cData['users'])
-        country_data['count'] = sum(u['count'] for u in cData['users'].itervalues())
-        country_data['usage'] = sum(u['usage'] for u in cData['users'].itervalues())
-        country_data['userreg'] = sum(1 for u in cData['users'].itervalues() if u['reg'] > cData['starttime']) \
-            if 'starttime' in cData else 0
-        country_data['category'] = cat
-        country_data['start'] = country_config['start']
-        country_data['end'] = country_config['end']
-
-        data[country_name] = country_data
-
-    return data
+    return country_data
 
 
 def get_data_for_category(category_name):
