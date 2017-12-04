@@ -167,10 +167,10 @@ def getData(name, data):
     return result_data
 
 
-def get_country_data(cat, country_config, default_starttime, default_endtime):
+def get_country_data(category, country_config, default_starttime, default_endtime):
     country_data = {}
 
-    dbData = get_data_for_category(cat)
+    dbData = get_data_for_category(category)
 
     if not dbData:
         return None
@@ -199,7 +199,7 @@ def get_country_data(cat, country_config, default_starttime, default_endtime):
     country_data['usage'] = sum(u['usage'] for u in cData['users'].itervalues())
     country_data['userreg'] = sum(1 for u in cData['users'].itervalues() if u['reg'] > cData['starttime']) \
         if 'starttime' in cData else 0
-    country_data['category'] = cat
+    country_data['category'] = category
     country_data['start'] = country_config['start']
     country_data['end'] = country_config['end']
 
