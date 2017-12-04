@@ -149,7 +149,7 @@ def getData(name, data):
     default_starttime = min(data[c]['start'] for c in data if 'start' in data[c])
     default_endtime = max(data[c]['end'] for c in data if 'end' in data[c])
 
-    for country_name in data.keys():
+    for country_name, country_config in data.iteritems():
         if country_name[0].islower():
             updateLog.append(u'')
         event = name[0:-4].title()
@@ -166,8 +166,8 @@ def getData(name, data):
             del data[country_name]
             continue
 
-        cData = {'starttime': data[country_name].get('start', default_starttime),
-                 'endtime': data[country_name].get('end', default_endtime),
+        cData = {'starttime': country_config.get('start', default_starttime),
+                 'endtime': country_config.get('end', default_endtime),
                  'data': defaultdict(int),  # data: {timestamp_day0: n, timestamp_day1: n,...}
                  'users': {}}  # users: {'user1': {'count': n, 'usage': n, 'reg': timestamp},...}
 
