@@ -33,7 +33,7 @@ def makeQuery(args):
  FROM categorylinks
  INNER JOIN page ON cl_from = page_id
  INNER JOIN image ON page_title = img_name
- WHERE cl_to = ? AND cl_type = 'file' AND img_major_mime = 'image'{user}{timestamp}{mb}{mp}
+ WHERE cl_to = %s AND cl_type = 'file' AND img_major_mime = 'image'{user}{timestamp}{mb}{mp}
  ORDER BY pixels DESC
  LIMIT 201{start}'''.format(**params), queryArgs)
 
