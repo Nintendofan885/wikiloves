@@ -38,6 +38,15 @@ class TestReData(unittest.TestCase):
         self.assertEqual(result, expected)
 
 
+class TestRePrefix(unittest.TestCase):
+
+    def test_re_prefix_match_ascii_line(self):
+        self.assertIsNotNone(database.re_prefix('    ["az"] = "Azerbaijan",'))
+
+    def test_re_prefix_match_ascii_line_with_space(self):
+        self.assertIsNotNone(database.re_prefix('    ["gq"] = "Equatorial Guinea",'))
+
+
 class TestGetData(unittest.TestCase):
 
     def setUp(self):

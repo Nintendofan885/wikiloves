@@ -72,6 +72,10 @@ def reData(txt, year):
     return m and m.groupdict()
 
 
+def re_prefix(txt):
+    return re.search(u'\s*\["(?P<prefix>[\w-]+)"\] = "(?P<name>[\w ]+)"|(?P<close>\})', txt)
+
+
 def get_config_from_commons(page):
     api = urlopen('https://commons.wikimedia.org/w/api.php?action=query&format=json&prop=revisions&titles=%s&rvprop=content' % page)
     text = json.loads(api.read())['query']['pages'].values()[0]['revisions'][0]['*']
@@ -82,7 +86,7 @@ def parse_config(text):
     data, event, prefixes = {}, None, {}
     lines = iter(text.split(u'\n'))
     for l in lines:
-        m = re.search(u'\s*\["(?P<prefix>[\w-]+)"\] = "(?P<name>[\w ]+)"|(?P<close>\})', l)
+        m = re_prefix(l)
         if prefixes and m and m.group('close'):
             break
         elif m and m.group('prefix'):
