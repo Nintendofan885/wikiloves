@@ -11,6 +11,7 @@ def get_wikiloves_category_name(event, year, country):
 catExceptions = {
     u'Armenia': u'Armenia_&_Nagorno-Karabakh',
     u'Netherlands': u'the_Netherlands',
+    u'Central African Republic': u'the_Central_African_Republic',
     u'Comoros': u'the_Comoros',
     u'Czech Republic': u'the_Czech_Republic',
     u'Dutch Caribbean': u'the_Dutch_Caribbean',
