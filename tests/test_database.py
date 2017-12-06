@@ -46,6 +46,9 @@ class TestRePrefix(unittest.TestCase):
     def test_re_prefix_match_ascii_line_with_space(self):
         self.assertIsNotNone(database.re_prefix('    ["gq"] = "Equatorial Guinea",'))
 
+    def test_re_prefix_match_ascii_line_with_dash(self):
+        self.assertIsNotNone(database.re_prefix('    ["gw"] = "Guinea-Bissau",'))
+
 
 class TestGetData(unittest.TestCase):
 
