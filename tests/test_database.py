@@ -52,6 +52,9 @@ class TestRePrefix(unittest.TestCase):
     def test_re_prefix_match_ascii_line_with_accents(self):
         self.assertIsNotNone(database.re_prefix(u'    ["re"] = "Réunion",'))
 
+    def test_re_prefix_match_ascii_line_with_apostrophe(self):
+        self.assertIsNotNone(database.re_prefix(u'    ["ci"] = "Côte d\'Ivoire",'))
+
 
 class TestGetData(unittest.TestCase):
 
