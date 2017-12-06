@@ -14,6 +14,8 @@ catExceptions = {
     u'Central African Republic': u'the_Central_African_Republic',
     u'Comoros': u'the_Comoros',
     u'Czech Republic': u'the_Czech_Republic',
+    u'Democratic Republic of the Congo': u'the_Democratic_Republic_of_the_Congo',
+    u'Republic of the Congo': u'the_Republic_of_the_Congo',
     u'Dutch Caribbean': u'the_Dutch_Caribbean',
     u'Philippines': u'the_Philippines',
     u'Seychelles': u'the_Seychelles',
