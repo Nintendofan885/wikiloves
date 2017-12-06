@@ -41,13 +41,16 @@ class TestReData(unittest.TestCase):
 class TestRePrefix(unittest.TestCase):
 
     def test_re_prefix_match_ascii_line(self):
-        self.assertIsNotNone(database.re_prefix('    ["az"] = "Azerbaijan",'))
+        self.assertIsNotNone(database.re_prefix(u'    ["az"] = "Azerbaijan",'))
 
     def test_re_prefix_match_ascii_line_with_space(self):
-        self.assertIsNotNone(database.re_prefix('    ["gq"] = "Equatorial Guinea",'))
+        self.assertIsNotNone(database.re_prefix(u'    ["gq"] = "Equatorial Guinea",'))
 
     def test_re_prefix_match_ascii_line_with_dash(self):
-        self.assertIsNotNone(database.re_prefix('    ["gw"] = "Guinea-Bissau",'))
+        self.assertIsNotNone(database.re_prefix(u'    ["gw"] = "Guinea-Bissau",'))
+
+    def test_re_prefix_match_ascii_line_with_accents(self):
+        self.assertIsNotNone(database.re_prefix(u'    ["re"] = "Réunion",'))
 
 
 class TestGetData(unittest.TestCase):

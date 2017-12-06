@@ -73,13 +73,13 @@ def reData(txt, year):
 
 
 def re_prefix(txt):
-    return re.search(u'\s*\["(?P<prefix>[\w-]+)"\] = "(?P<name>[\w\- ]+)"|(?P<close>\})', txt)
+    return re.search(u'\s*\["(?P<prefix>[\w-]+)"\] = "(?P<name>[\w\- ]+)"|(?P<close>\})', txt, re.UNICODE)
 
 
 def get_config_from_commons(page):
     api = urlopen('https://commons.wikimedia.org/w/api.php?action=query&format=json&prop=revisions&titles=%s&rvprop=content' % page)
     text = json.loads(api.read())['query']['pages'].values()[0]['revisions'][0]['*']
-    return text
+    return unicode(text)
 
 
 def parse_config(text):
