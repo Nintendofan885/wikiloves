@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+import io
 import json
 import os
 import re
@@ -247,5 +248,5 @@ if __name__ == '__main__' and 'update' in sys.argv:
         updateLog.append(log)
     commonsdb.conn.close()
     if updateLog:
-        with open('update.log', 'w') as f:
+        with io.open('update.log', 'w', encoding='utf-8') as f:
             f.write(time.strftime('%Y%m%d%H%M%S') + '\n' + '\n'.join(updateLog))
