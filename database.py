@@ -202,8 +202,7 @@ def get_country_data(category, start_time, end_time):
     country_data['usercount'] = len(user_data)
     country_data['count'] = sum(u['count'] for u in user_data.itervalues())
     country_data['usage'] = sum(u['usage'] for u in user_data.itervalues())
-    country_data['userreg'] = sum(1 for u in user_data.itervalues() if u['reg'] > start_time) \
-        if start_time else 0
+    country_data['userreg'] = len([user for user in user_data.itervalues() if user['reg'] > start_time])
     country_data['category'] = category
     country_data['start'] = start_time
     country_data['end'] = end_time
