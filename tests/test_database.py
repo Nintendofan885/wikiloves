@@ -63,7 +63,7 @@ class TestGetDataMixin(unittest.TestCase):
         self.mock_get_data_for_category = patcher.start()
         self.mock_get_data_for_category.return_value = (
             (20140529121626, False, u'Alice', 20140528235032),
-            (20140523121626, False, u'Bob', 20140523235032),
+            (20140523121626, False, u'Bob', 20130523235032),
         )
         self.addCleanup(patcher.stop)
 
@@ -85,7 +85,7 @@ class TestGetData(TestGetDataMixin):
                 'count': 2,
                 'usercount': 2,
                 'start': 20140501030000,
-                'userreg': 2,
+                'userreg': 1,
                 'data': expected_timestamp_data,
                 'users': {
                     u'Alice': {
@@ -95,7 +95,7 @@ class TestGetData(TestGetDataMixin):
                     },
                     u'Bob': {
                         'count': 1,
-                        'reg': 20140523235032,
+                        'reg': 20130523235032,
                         'usage': 0
                     }
                 },
@@ -120,7 +120,7 @@ class TestGetCountryData(TestGetDataMixin):
             'count': 2,
             'usercount': 2,
             'start': 20140501030000,
-            'userreg': 2,
+            'userreg': 1,
             'data': expected_timestamp_data,
             'users': {
                 u'Alice': {
@@ -130,7 +130,7 @@ class TestGetCountryData(TestGetDataMixin):
                 },
                 u'Bob': {
                     'count': 1,
-                    'reg': 20140523235032,
+                    'reg': 20130523235032,
                     'usage': 0
                 }
             },
