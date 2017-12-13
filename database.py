@@ -163,7 +163,9 @@ def getData(name, data):
         if name == 'monuments2010':
             cat = u'Images_from_Wiki_Loves_Monuments_2010'
 
-        country_data = get_country_data(cat, country_config, default_starttime, default_endtime)
+        start_time = country_config.get('start', default_starttime)
+        end_time = country_config.get('end', default_endtime)
+        country_data = get_country_data(cat, start_time, end_time)
         if country_data:
             result_data[country_name] = country_data
         else:
@@ -172,7 +174,7 @@ def getData(name, data):
     return result_data
 
 
-def get_country_data(category, country_config, default_starttime, default_endtime):
+def get_country_data(category, start_time, end_time):
     country_data = {}
 
     dbData = get_data_for_category(category)
@@ -180,8 +182,8 @@ def get_country_data(category, country_config, default_starttime, default_endtim
     if not dbData:
         return None
 
-    cData = {'starttime': country_config.get('start', default_starttime),
-             'endtime': country_config.get('end', default_endtime),
+    cData = {'starttime': start_time,
+             'endtime': end_time,
              'data': defaultdict(int),  # data: {timestamp_day0: n, timestamp_day1: n,...}
              'users': {}}  # users: {'user1': {'count': n, 'usage': n, 'reg': timestamp},...}
 
