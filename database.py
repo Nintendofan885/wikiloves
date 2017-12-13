@@ -182,33 +182,31 @@ def get_country_data(category, start_time, end_time):
     if not dbData:
         return None
 
-    cData = {'starttime': start_time,
-             'endtime': end_time,
-             'data': defaultdict(int),  # data: {timestamp_day0: n, timestamp_day1: n,...}
-             'users': {}}  # users: {'user1': {'count': n, 'usage': n, 'reg': timestamp},...}
+    daily_data = defaultdict(int)  # data: {timestamp_day0: n, timestamp_day1: n,...}
+    user_data = {}  # users: {'user1': {'count': n, 'usage': n, 'reg': timestamp},...}
 
     for timestamp, usage, user, user_reg in dbData:
         # Desconsidera timestamps fora do período da campanha
-        if not cData['starttime'] <= timestamp <= cData['endtime']:
+        if not start_time <= timestamp <= end_time:
             continue
         # Conta imagens por dia
-        cData['data'][str(timestamp)[0:8]] += 1
-        if user not in cData['users']:
-            cData['users'][user] = {'count': 0, 'usage': 0, 'reg': user_reg}
-        cData['users'][user]['count'] += 1
+        daily_data[str(timestamp)[0:8]] += 1
+        if user not in user_data:
+            user_data[user] = {'count': 0, 'usage': 0, 'reg': user_reg}
+        user_data[user]['count'] += 1
         if usage:
-            cData['users'][user]['usage'] += 1
+            user_data[user]['usage'] += 1
 
     country_data.update(
-        {'data': cData['data'], 'users': cData['users']})
-    country_data['usercount'] = len(cData['users'])
-    country_data['count'] = sum(u['count'] for u in cData['users'].itervalues())
-    country_data['usage'] = sum(u['usage'] for u in cData['users'].itervalues())
-    country_data['userreg'] = sum(1 for u in cData['users'].itervalues() if u['reg'] > cData['starttime']) \
-        if 'starttime' in cData else 0
+        {'data': daily_data, 'users': user_data})
+    country_data['usercount'] = len(user_data)
+    country_data['count'] = sum(u['count'] for u in user_data.itervalues())
+    country_data['usage'] = sum(u['usage'] for u in user_data.itervalues())
+    country_data['userreg'] = sum(1 for u in user_data.itervalues() if u['reg'] > start_time) \
+        if start_time else 0
     country_data['category'] = category
-    country_data['start'] = cData['starttime']
-    country_data['end'] = cData['endtime']
+    country_data['start'] = start_time
+    country_data['end'] = end_time
 
     return country_data
 
