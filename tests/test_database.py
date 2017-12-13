@@ -56,7 +56,7 @@ class TestRePrefix(unittest.TestCase):
         self.assertIsNotNone(database.re_prefix(u'    ["ci"] = "Côte d\'Ivoire",'))
 
 
-class TestGetData(unittest.TestCase):
+class TestGetDataMixin(unittest.TestCase):
 
     def setUp(self):
         patcher = mock.patch('database.get_data_for_category', autospec=True)
@@ -66,6 +66,9 @@ class TestGetData(unittest.TestCase):
             (20140523121626, False, u'Bob', 20140523235032),
         )
         self.addCleanup(patcher.stop)
+
+
+class TestGetData(TestGetDataMixin):
 
     def test_GetData(self):
         competition_config = {
@@ -101,6 +104,42 @@ class TestGetData(unittest.TestCase):
                 'end': 20140601025959
             }
         }
+        self.assertEquals(result, expected)
+
+
+class TestGetCountryData(TestGetDataMixin):
+
+    def test_get_country_data(self):
+        category = u'Images_from_Wiki_Loves_Dumplings_2014_in_Brazil'
+        country_config = {'start': 20140501030000, 'end': 20140601025959}
+        result = database.get_country_data(category, country_config, None, None)
+
+        expected_timestamp_data = defaultdict(int)
+        expected_timestamp_data.update({'20140523': 1, '20140529': 1})
+
+        expected = {
+            'count': 2,
+            'usercount': 2,
+            'start': 20140501030000,
+            'userreg': 2,
+            'data': expected_timestamp_data,
+            'users': {
+                u'Alice': {
+                    'count': 1,
+                    'reg': 20140528235032,
+                    'usage': 0
+                },
+                u'Bob': {
+                    'count': 1,
+                    'reg': 20140523235032,
+                    'usage': 0
+                }
+            },
+            'usage': 0,
+            'category': category,
+            'end': 20140601025959
+        }
+        self.mock_get_data_for_category.assert_called_once_with(category)
         self.assertEquals(result, expected)
 
 
