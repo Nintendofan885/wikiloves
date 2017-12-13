@@ -205,8 +205,8 @@ def get_country_data(category, country_config, default_starttime, default_endtim
     country_data['userreg'] = sum(1 for u in cData['users'].itervalues() if u['reg'] > cData['starttime']) \
         if 'starttime' in cData else 0
     country_data['category'] = category
-    country_data['start'] = country_config['start']
-    country_data['end'] = country_config['end']
+    country_data['start'] = cData['starttime']
+    country_data['end'] = cData['endtime']
 
     return country_data
 

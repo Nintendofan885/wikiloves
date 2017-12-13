@@ -142,6 +142,38 @@ class TestGetCountryData(TestGetDataMixin):
         self.mock_get_data_for_category.assert_called_once_with(category)
         self.assertEquals(result, expected)
 
+    def test_get_country_data_with_default_times(self):
+        category = u'Images_from_Wiki_Loves_Dumplings_2014_in_Brazil'
+        country_config = {}
+        result = database.get_country_data(category, country_config, 20140501030000, 20140601025959)
+
+        expected_timestamp_data = defaultdict(int)
+        expected_timestamp_data.update({'20140523': 1, '20140529': 1})
+
+        expected = {
+            'count': 2,
+            'usercount': 2,
+            'start': 20140501030000,
+            'userreg': 2,
+            'data': expected_timestamp_data,
+            'users': {
+                u'Alice': {
+                    'count': 1,
+                    'reg': 20140528235032,
+                    'usage': 0
+                },
+                u'Bob': {
+                    'count': 1,
+                    'reg': 20140523235032,
+                    'usage': 0
+                }
+            },
+            'usage': 0,
+            'category': category,
+            'end': 20140601025959
+        }
+        self.mock_get_data_for_category.assert_called_once_with(category)
+        self.assertEquals(result, expected)
 
 if __name__ == "__main__":
     unittest.main()
