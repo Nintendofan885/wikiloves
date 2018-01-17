@@ -4,8 +4,13 @@
 def get_wikiloves_category_name(event, year, country):
     if (event, year, country) in special_exceptions:
         return special_exceptions[(event, year, country)]
-    category = u'Images_from_Wiki_Loves_%s_%s_in_' % (event, year)
-    return category + catExceptions.get(country, country.replace(' ', u'_'))
+    template = get_event_category_template()
+    country_name = catExceptions.get(country, country.replace(' ', u'_'))
+    return template.format(event=event, year=year, country=country_name)
+
+
+def get_event_category_template():
+    return u'Images_from_Wiki_Loves_{event}_{year}_in_{country}'
 
 
 catExceptions = {
