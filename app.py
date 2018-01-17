@@ -18,7 +18,7 @@ dbtime = None
 
 
 def loadDB():
-    global db, menu, mainData, cData, dbtime
+    global db, menu, events_data, country_data, dbtime
     mtime = getmtime('db.json')
     if dbtime and dbtime == mtime:
         return
@@ -29,7 +29,7 @@ def loadDB():
     except IOError:
         db = None
     menu = {name: sorted(e[-4:] for e in db if e[:-4] == name) for name in set(e[:-4] for e in db)}
-    mainData = {name: {e[-4:]:
+    events_data = {name: {e[-4:]:
         {'count': sum(db[e][c]['count'] for c in db[e]),
          'usercount': sum(db[e][c]['usercount'] for c in db[e]),
          'userreg': sum(db[e][c]['userreg'] for c in db[e]),
@@ -37,10 +37,10 @@ def loadDB():
          'country_count': len(db[e])
          }
         for e in db if e[:-4] == name} for name in set(e[:-4] for e in db)}
-    cData = {}
+    country_data = {}
     for e in db:
         for c in db[e]:
-            cData.setdefault(c, {}).setdefault(e[:-4], {}).update({e[-4:]: {
+            country_data.setdefault(c, {}).setdefault(e[:-4], {}).update({e[-4:]: {
                 'count': db[e][c]['count'], 'usercount': db[e][c]['usercount'],
                 'usage': db[e][c]['usage'], 'userreg': db[e][c]['userreg']}})
 
@@ -50,13 +50,13 @@ loadDB()
 
 @app.route('/')
 def index():
-    countries = {c: [(cData[c]['earth'].keys() if 'earth' in cData[c] else None),
-                     (cData[c]['monuments'].keys() if 'monuments' in cData[c] else None),
-                     (cData[c]['africa'].keys() if 'africa' in cData[c] else None),
-                     (cData[c]['public_art'].keys() if 'public_art' in cData[c] else None)]
-                 for c in cData}
+    countries = {c: [(country_data[c]['earth'].keys() if 'earth' in country_data[c] else None),
+                     (country_data[c]['monuments'].keys() if 'monuments' in country_data[c] else None),
+                     (country_data[c]['africa'].keys() if 'africa' in country_data[c] else None),
+                     (country_data[c]['public_art'].keys() if 'public_art' in country_data[c] else None)]
+                 for c in country_data}
     return render_template('mainpage.html', title=u'Wiki Loves Competitions Tools', menu=menu,
-            data=mainData, countries=countries)
+            data=events_data, countries=countries)
 
 
 @app.route('/log')
@@ -80,11 +80,11 @@ def logpage():
 def event_main(name):
     if not db:
         return index()
-    if name in mainData:
+    if name in events_data:
         eventName = get_event_name(name)
-        eventData = {name: {y: v for y, v in mainData[name].iteritems()}}
-        eventData.update(countries={c: cData[c][e] for c in cData
-            for e in cData[c] if e == name})
+        eventData = {name: {y: v for y, v in events_data[name].iteritems()}}
+        eventData.update(countries={country: country_data[country][event] for country in country_data
+            for event in country_data[country] if event == name})
         return render_template('eventmain.html', title=eventName, menu=menu, name=name, data=eventData)
     else:
         return render_template('page_not_found.html', title=u'Event not found', menu=menu)
@@ -134,9 +134,9 @@ def users(name, year, country):
 
 @app.route('/country/<name>')
 def country(name):
-    if name in cData:
+    if name in country_data:
         return render_template('country.html', title=u'Wiki Loves Competitions in ' + name, menu=menu,
-                data=cData[name], country=name)
+                data=country_data[name], country=name)
     else:
         return render_template('page_not_found.html', title=u'Country not found', menu=menu)
 
