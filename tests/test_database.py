@@ -141,5 +141,6 @@ class TestGetCountryData(TestGetDataMixin):
         self.mock_get_data_for_category.assert_called_once_with(category)
         self.assertEquals(result, expected)
 
+
 if __name__ == "__main__":
     unittest.main()
