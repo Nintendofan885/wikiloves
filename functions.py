@@ -15,6 +15,15 @@ def get_country_summary(country_data):
             for c in country_data}
 
 
+def get_event_name(name):
+    """
+    Generate a name from the label.
+
+    Returns title case with underscore replaced.
+    """
+    return u'Wiki Loves %s' % name.replace('_', ' ').title()
+
+
 def get_wikiloves_category_name(event, year, country):
     if (event, year, country) in special_exceptions:
         return special_exceptions[(event, year, country)]

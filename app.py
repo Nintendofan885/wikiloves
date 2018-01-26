@@ -10,7 +10,7 @@ from os.path import getmtime
 from flask import Flask, make_response, render_template, request
 
 import images
-from functions import get_country_summary
+from functions import get_country_summary, get_event_name
 
 app = Flask(__name__)
 app.debug = True
@@ -85,15 +85,6 @@ def event_main(name):
         return render_template('eventmain.html', title=eventName, menu=menu, name=name, data=eventData)
     else:
         return render_template('page_not_found.html', title=u'Event not found', menu=menu)
-
-
-def get_event_name(name):
-    """
-    Generate a name from the label.
-
-    Returns title case with underscore replaced.
-    """
-    return u'Wiki Loves %s' % name.replace('_', ' ').title()
 
 
 @app.route('/<name>/20<year>')
