@@ -2,10 +2,10 @@
 
 
 def get_country_summary(country_data):
-    return {c: [(country_data[c]['earth'].keys() if 'earth' in country_data[c] else None),
-                (country_data[c]['monuments'].keys() if 'monuments' in country_data[c] else None),
-                (country_data[c]['africa'].keys() if 'africa' in country_data[c] else None),
-                (country_data[c]['public_art'].keys() if 'public_art' in country_data[c] else None)]
+    return {c: [(sorted(country_data[c]['earth'].keys()) if 'earth' in country_data[c] else None),
+                (sorted(country_data[c]['monuments'].keys()) if 'monuments' in country_data[c] else None),
+                (sorted(country_data[c]['africa'].keys()) if 'africa' in country_data[c] else None),
+                (sorted(country_data[c]['public_art'].keys()) if 'public_art' in country_data[c] else None)]
             for c in country_data}
 
 
