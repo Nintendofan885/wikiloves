@@ -10,6 +10,7 @@ from os.path import getmtime
 from flask import Flask, make_response, render_template, request
 
 import images
+from functions import get_country_summary
 
 app = Flask(__name__)
 app.debug = True
@@ -50,11 +51,7 @@ loadDB()
 
 @app.route('/')
 def index():
-    countries = {c: [(country_data[c]['earth'].keys() if 'earth' in country_data[c] else None),
-                     (country_data[c]['monuments'].keys() if 'monuments' in country_data[c] else None),
-                     (country_data[c]['africa'].keys() if 'africa' in country_data[c] else None),
-                     (country_data[c]['public_art'].keys() if 'public_art' in country_data[c] else None)]
-                 for c in country_data}
+    countries = get_country_summary(country_data)
     return render_template('mainpage.html', title=u'Wiki Loves Competitions Tools', menu=menu,
             data=events_data, countries=countries)
 
