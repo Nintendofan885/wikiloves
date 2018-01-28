@@ -12,7 +12,7 @@ from urllib import urlopen
 
 import pymysql
 
-from functions import get_wikiloves_category_name
+from functions import EVENTS, get_wikiloves_category_name
 
 updateLog = []
 
@@ -66,10 +66,11 @@ def reData(txt, year):
     """
     Parser para linha da configuração
     """
+    events = '|'.join(EVENTS)
     regex = ur'''
-        \s*wl\["(?P<event>earth|monuments|africa|public_art)"\]\[(?P<year>20\d\d)]\ ?=\ ?\{|
+        \s*wl\["(?P<event>%s)"\]\[(?P<year>20\d\d)]\ ?=\ ?\{|
         \s*\["(?P<country>[-a-z]+)"\]\ =\ \{\["start"\]\ =\ (?P<start>%s\d{10}),\ \["end"\]\ =\ (?P<end>%s\d\d{10})\}
-        ''' % (year, str(year)[:3])
+        ''' % (events, year, str(year)[:3])
     m = re.search(regex, txt, re.X)
     return m and m.groupdict()
 
