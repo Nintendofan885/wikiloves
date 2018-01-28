@@ -175,9 +175,12 @@ def get_country_data(category, start_time, end_time):
     daily_data = defaultdict(int)  # data: {timestamp_day0: n, timestamp_day1: n,...}
     user_data = {}  # users: {'user1': {'count': n, 'usage': n, 'reg': timestamp},...}
 
+    discarded_counter = 0
+
     for timestamp, usage, user, user_reg in dbData:
         # Desconsidera timestamps fora do período da campanha
         if not start_time <= timestamp <= end_time:
+            discarded_counter += 1
             continue
         # Conta imagens por dia
         daily_data[str(timestamp)[0:8]] += 1
@@ -196,6 +199,8 @@ def get_country_data(category, start_time, end_time):
     country_data['category'] = category
     country_data['start'] = start_time
     country_data['end'] = end_time
+    updateLog.append(u'%s images discarded as out of bounds in [[Category:%s]]' %
+                     (discarded_counter, category.replace(u'_', u' ')))
 
     return country_data
 
