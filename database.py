@@ -119,18 +119,6 @@ def getConfig(page):
     return parse_config(text)
 
 
-catExceptions = {
-    u'Armenia': u'Armenia_&_Nagorno-Karabakh',
-    u'Netherlands': u'the_Netherlands',
-    u'Czech Republic': u'the_Czech_Republic',
-    u'Dutch Caribbean': u'the_Dutch_Caribbean',
-    u'Philippines': u'the_Philippines',
-    u'Seychelles': u'the_Seychelles',
-    u'United Kingdom': u'the_United_Kingdom',
-    u'United States': u'the_United_States'
-}
-
-
 dbquery = u'''SELECT
  img_timestamp,
  img_name IN (SELECT DISTINCT gil_to FROM globalimagelinks) AS image_in_use,
