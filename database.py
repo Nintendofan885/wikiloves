@@ -199,8 +199,9 @@ def get_country_data(category, start_time, end_time):
     country_data['category'] = category
     country_data['start'] = start_time
     country_data['end'] = end_time
-    updateLog.append(u'%s images discarded as out of bounds in [[Category:%s]]' %
-                     (discarded_counter, category.replace(u'_', u' ')))
+    if discarded_counter:
+        updateLog.append(u'%s images discarded as out of bounds in [[Category:%s]]' %
+                         (discarded_counter, category.replace(u'_', u' ')))
 
     return country_data
 
