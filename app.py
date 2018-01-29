@@ -30,14 +30,18 @@ def loadDB():
     except IOError:
         db = None
     menu = {name: sorted(e[-4:] for e in db if e[:-4] == name) for name in set(e[:-4] for e in db)}
-    events_data = {name: {e[-4:]:
-        {'count': sum(db[e][c]['count'] for c in db[e]),
-         'usercount': sum(db[e][c]['usercount'] for c in db[e]),
-         'userreg': sum(db[e][c]['userreg'] for c in db[e]),
-         'usage': sum(db[e][c]['usage'] for c in db[e]),
-         'country_count': len(db[e])
-         }
-        for e in db if e[:-4] == name} for name in set(e[:-4] for e in db)}
+    events_data = {
+        name: {
+            e[-4:]: {
+                'count': sum(db[e][c]['count'] for c in db[e]),
+                'usercount': sum(db[e][c]['usercount'] for c in db[e]),
+                'userreg': sum(db[e][c]['userreg'] for c in db[e]),
+                'usage': sum(db[e][c]['usage'] for c in db[e]),
+                'country_count': len(db[e])
+            }
+            for e in db if e[:-4] == name
+        } for name in set(e[:-4] for e in db)
+    }
     country_data = {}
     for e in db:
         for c in db[e]:
@@ -53,7 +57,7 @@ loadDB()
 def index():
     countries = get_country_summary(country_data)
     return render_template('mainpage.html', title=u'Wiki Loves Competitions Tools', menu=menu,
-            data=events_data, countries=countries)
+                           data=events_data, countries=countries)
 
 
 @app.route('/log')
@@ -63,7 +67,7 @@ def logpage():
             log = f.read()
         timestamp = time.strftime('%H:%M, %d %B %Y', time.strptime(log[:14], '%Y%m%d%H%M%S'))
         log = re.sub(ur'\[\[([^]]+)\]\]', lambda m: u'<a href="https://commons.wikimedia.org/wiki/%s">%s</a>' %
-                (m.group(1).replace(u' ', u'_'), m.group(1)), log[15:]).split(u'\n')
+                     (m.group(1).replace(u' ', u'_'), m.group(1)), log[15:]).split(u'\n')
     except IOError:
         log = timestamp = None
     return render_template('log.html', title=u'Update log', menu=menu, time=timestamp, log=log)
@@ -81,7 +85,7 @@ def event_main(name):
         eventName = get_event_name(name)
         eventData = {name: {y: v for y, v in events_data[name].iteritems()}}
         eventData.update(countries={country: country_data[country][event] for country in country_data
-            for event in country_data[country] if event == name})
+                                    for event in country_data[country] if event == name})
         return render_template('eventmain.html', title=eventName, menu=menu, name=name, data=eventData)
     else:
         return render_template('page_not_found.html', title=u'Event not found', menu=menu)
@@ -124,7 +128,7 @@ def users(name, year, country):
 def country(name):
     if name in country_data:
         return render_template('country.html', title=u'Wiki Loves Competitions in ' + name, menu=menu,
-                data=country_data[name], country=name)
+                               data=country_data[name], country=name)
     else:
         return render_template('page_not_found.html', title=u'Country not found', menu=menu)
 
@@ -137,7 +141,8 @@ def images_page():
         return render_template('images_not_found.html', menu=menu, title=u'Images not found')
     backto = [args['event'], args['year']] + ([args['country']] if 'user' in args else [])
     title = u'Images of %s%s %s in %s' % (args['user'] + u' in ' if 'user' in args else u'',
-        get_event_name(args['event']), args['year'], args['country'])
+                                          get_event_name(args['event']),
+                                          args['year'], args['country'])
     return render_template('images.html', menu=menu, title=title, images=imgs, backto=backto)
 
 
