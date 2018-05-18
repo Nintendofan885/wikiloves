@@ -4,6 +4,9 @@ CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 . $CURRENT_DIR/defaults.sh
 
 set -ex
+
+ln -sfn $SOURCE_PATH $APP_PATH
+
 if [ ! -d $VIRTUAL_ENV_PATH ]; then
     echo "Creating virtual environment..."
     virtualenv $VIRTUAL_ENV_PATH --system-site-packages

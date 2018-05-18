@@ -4,4 +4,6 @@ echo_time() {
 
 # Paths
 : ${SOURCE_PATH:=$HOME/wikiloves}
-: ${VIRTUAL_ENV_PATH:=$HOME/.venv}
+: ${TOOLFORGE_PATH:=$HOME/www/python/}
+: ${VIRTUAL_ENV_PATH:=$TOOLFORGE_PATH/venv}
+: ${APP_PATH:=$TOOLFORGE_PATH/src}
