@@ -13,9 +13,14 @@ class DB:
     """
 
     def connect(self):
+        username = os.environ.get('DB_USERNAME', None)
+        password = os.environ.get('DB_PASSWORD', None)
+        host = os.environ.get('DB_HOST', 'commonswiki.analytics.db.svc.eqiad.wmflabs')
         self.conn = pymysql.connect(
             db='commonswiki_p',
-            host='commonswiki.analytics.db.svc.eqiad.wmflabs',
+            host=host,
+            user=username,
+            passwd=password,
             read_default_file=os.path.expanduser('~/replica.my.cnf'),
             read_timeout=30, charset='utf8', use_unicode=True)
         self.conn.ping(True)
