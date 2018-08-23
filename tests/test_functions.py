@@ -24,6 +24,25 @@ class TestGetWikilovesCategoryName(unittest.TestCase):
         self.assertEqual(result, expected)
 
 
+class TestGetEventName(unittest.TestCase):
+
+    def test_get_event_name_wikiloves(self):
+        data = {
+            'earth': 'Wiki Loves Earth',
+            'africa': 'Wiki Loves Africa',
+            'monuments': 'Wiki Loves Monuments',
+            'monuments': 'Wiki Loves Monuments',
+        }
+        for (event_slug, event_name) in data.items():
+            result = functions.get_event_name(event_slug)
+            self.assertEqual(result, event_name)
+
+    def test_get_event_name_wikiloves_several_words(self):
+        result = functions.get_event_name('public_art')
+        expected = 'Wiki Loves Public Art'
+        self.assertEqual(result, expected)
+
+
 class TestGetCountrySummary(unittest.TestCase):
 
     def test_get_country_summary(self):
