@@ -26,7 +26,7 @@ class TestGetWikilovesCategoryName(unittest.TestCase):
 
 class TestGetCountrySummary(unittest.TestCase):
 
-    def test_get_wikiloves_category_name(self):
+    def test_get_country_summary(self):
         country_data = {
             "Turkey": {
                 "earth": {
