@@ -10,7 +10,12 @@ from os.path import getmtime
 from flask import Flask, make_response, render_template, request
 
 import images
-from functions import get_country_data, get_country_summary, get_event_name
+from functions import (
+    get_country_data,
+    get_country_summary,
+    get_event_name,
+    get_events_data
+)
 
 app = Flask(__name__)
 app.debug = True
@@ -30,18 +35,7 @@ def loadDB():
     except IOError:
         db = None
     menu = {name: sorted(e[-4:] for e in db if e[:-4] == name) for name in set(e[:-4] for e in db)}
-    events_data = {
-        name: {
-            e[-4:]: {
-                'count': sum(db[e][c]['count'] for c in db[e]),
-                'usercount': sum(db[e][c]['usercount'] for c in db[e]),
-                'userreg': sum(db[e][c]['userreg'] for c in db[e]),
-                'usage': sum(db[e][c]['usage'] for c in db[e]),
-                'country_count': len(db[e])
-            }
-            for e in db if e[:-4] == name
-        } for name in set(e[:-4] for e in db)
-    }
+    events_data = get_events_data(db)
     country_data = get_country_data(db)
 
 

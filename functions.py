@@ -19,6 +19,21 @@ def get_country_data(db):
     return country_data
 
 
+def get_events_data(db):
+    return {
+        name: {
+            e[-4:]: {
+                'count': sum(db[e][c]['count'] for c in db[e]),
+                'usercount': sum(db[e][c]['usercount'] for c in db[e]),
+                'userreg': sum(db[e][c]['userreg'] for c in db[e]),
+                'usage': sum(db[e][c]['usage'] for c in db[e]),
+                'country_count': len(db[e])
+            }
+            for e in db if e[:-4] == name
+        } for name in set(e[:-4] for e in db)
+    }
+
+
 def get_country_summary(country_data):
     return {c: [(sorted(country_data[c][event].keys())if event in country_data[c] else None)
                 for event in EVENTS]

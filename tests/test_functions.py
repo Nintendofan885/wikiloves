@@ -118,6 +118,7 @@ class TestProcessDataMixin(unittest.TestCase):
         data_file = os.path.join(current_path, 'conf/db.dump.json')
         self.data = json.load(open(data_file, 'r'))
 
+
 class TestProcessData(TestProcessDataMixin):
 
     def test_get_country_data(self):
@@ -177,6 +178,48 @@ class TestProcessData(TestProcessDataMixin):
                         'usercount': 1,
                         'userreg': 0
                     }
+                }
+            }
+        }
+        self.assertEqual(result, expected)
+
+    def test_get_events_data(self):
+        result = functions.get_events_data(self.data)
+        expected = {
+            u'africa': {
+                u'2014': {
+                    'count': 5,
+                    'country_count': 1,
+                    'usage': 0,
+                    'usercount': 1,
+                    'userreg': 0
+                }
+            },
+            u'earth': {
+                u'2015': {
+                    'count': 31,
+                    'country_count': 2,
+                    'usage': 0,
+                    'usercount': 3,
+                    'userreg': 2
+                }
+            },
+            u'monuments': {
+                u'2016': {
+                    'count': 31,
+                    'country_count': 2,
+                    'usage': 0,
+                    'usercount': 3,
+                    'userreg': 2
+                }
+            },
+            u'public_art': {
+                u'2013': {
+                    'count': 5,
+                    'country_count': 1,
+                    'usage': 0,
+                    'usercount': 1,
+                    'userreg': 0
                 }
             }
         }
