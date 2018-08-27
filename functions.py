@@ -9,6 +9,16 @@ EVENTS = [
 ]
 
 
+def get_country_data(db):
+    country_data = {}
+    for e in db:
+        for c in db[e]:
+            country_data.setdefault(c, {}).setdefault(e[:-4], {}).update({e[-4:]: {
+                'count': db[e][c]['count'], 'usercount': db[e][c]['usercount'],
+                'usage': db[e][c]['usage'], 'userreg': db[e][c]['userreg']}})
+    return country_data
+
+
 def get_country_summary(country_data):
     return {c: [(sorted(country_data[c][event].keys())if event in country_data[c] else None)
                 for event in EVENTS]

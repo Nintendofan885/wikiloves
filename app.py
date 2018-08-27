@@ -10,7 +10,7 @@ from os.path import getmtime
 from flask import Flask, make_response, render_template, request
 
 import images
-from functions import get_country_summary, get_event_name
+from functions import get_country_data, get_country_summary, get_event_name
 
 app = Flask(__name__)
 app.debug = True
@@ -42,12 +42,7 @@ def loadDB():
             for e in db if e[:-4] == name
         } for name in set(e[:-4] for e in db)
     }
-    country_data = {}
-    for e in db:
-        for c in db[e]:
-            country_data.setdefault(c, {}).setdefault(e[:-4], {}).update({e[-4:]: {
-                'count': db[e][c]['count'], 'usercount': db[e][c]['usercount'],
-                'usage': db[e][c]['usage'], 'userreg': db[e][c]['userreg']}})
+    country_data = get_country_data(db)
 
 
 loadDB()

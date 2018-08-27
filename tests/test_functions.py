@@ -1,6 +1,8 @@
 # -*- coding: utf-8  -*-
 """Unit tests for functions.py."""
 
+import json
+import os
 import unittest
 
 import functions
@@ -105,6 +107,78 @@ class TestGetCountrySummary(unittest.TestCase):
             'Benin': [None, None, ['2014'], None],
             'Panama': [['2016'], ['2016'], None, None],
             'Turkey': [['2015'], ['2016', '2017'], None, None]
+        }
+        self.assertEqual(result, expected)
+
+
+class TestProcessDataMixin(unittest.TestCase):
+
+    def setUp(self):
+        current_path = os.path.abspath(os.path.curdir)
+        data_file = os.path.join(current_path, 'conf/db.dump.json')
+        self.data = json.load(open(data_file, 'r'))
+
+class TestProcessData(TestProcessDataMixin):
+
+    def test_get_country_data(self):
+        result = functions.get_country_data(self.data)
+        expected = {
+            u'Austria': {
+                u'public_art': {
+                    u'2013': {
+                        'count': 5,
+                        'usage': 0,
+                        'usercount': 1,
+                        'userreg': 0
+                    }
+                }
+            },
+            u'Benin': {
+                u'africa': {
+                    u'2014': {
+                        'count': 5,
+                        'usage': 0,
+                        'usercount': 1,
+                        'userreg': 0
+                    }
+                }
+            },
+            u'Panama': {
+                u'earth': {
+                    u'2015': {
+                        'count': 26,
+                        'usage': 0,
+                        'usercount': 2,
+                        'userreg': 2
+                    }
+                },
+                u'monuments': {
+                    u'2016': {
+                        'count': 26,
+                        'usage': 0,
+                        'usercount': 2,
+                        'userreg': 2
+                    }
+                }
+            },
+            u'Turkey': {
+                u'earth': {
+                    u'2015': {
+                        'count': 5,
+                        'usage': 0,
+                        'usercount': 1,
+                        'userreg': 0
+                    }
+                },
+                u'monuments': {
+                    u'2016': {
+                        'count': 5,
+                        'usage': 0,
+                        'usercount': 1,
+                        'userreg': 0
+                    }
+                }
+            }
         }
         self.assertEqual(result, expected)
 
