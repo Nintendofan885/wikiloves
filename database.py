@@ -9,8 +9,8 @@ import time
 from collections import defaultdict
 from urllib import urlopen
 
-from functions import EVENTS, get_wikiloves_category_name
 from commons_database import DB
+from functions import EVENTS, get_wikiloves_category_name
 
 updateLog = []
 

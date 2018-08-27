@@ -4,8 +4,8 @@ import os
 
 import pymysql
 
-from functions import get_wikiloves_category_name
 from commons_database import DB
+from functions import get_wikiloves_category_name
 
 
 def makeQuery(args):
