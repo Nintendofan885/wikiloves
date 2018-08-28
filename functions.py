@@ -34,6 +34,13 @@ def get_events_data(db):
     }
 
 
+def get_menu(db):
+    return {
+        name: sorted(e[-4:] for e in db if e[:-4] == name)
+        for name in set(e[:-4] for e in db)
+       }
+
+
 def get_country_summary(country_data):
     return {c: [(sorted(country_data[c][event].keys())if event in country_data[c] else None)
                 for event in EVENTS]

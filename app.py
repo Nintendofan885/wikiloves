@@ -14,7 +14,8 @@ from functions import (
     get_country_data,
     get_country_summary,
     get_event_name,
-    get_events_data
+    get_events_data,
+    get_menu
 )
 
 app = Flask(__name__)
@@ -34,7 +35,7 @@ def loadDB():
             db = json.load(f)
     except IOError:
         db = None
-    menu = {name: sorted(e[-4:] for e in db if e[:-4] == name) for name in set(e[:-4] for e in db)}
+    menu = get_menu(db)
     events_data = get_events_data(db)
     country_data = get_country_data(db)
 

@@ -225,6 +225,16 @@ class TestProcessData(TestProcessDataMixin):
         }
         self.assertEqual(result, expected)
 
+    def test_get_menu(self):
+        result = functions.get_menu(self.data)
+        expected = {
+            u'earth': [u'2015'],
+            u'monuments': [u'2016'],
+            u'africa': [u'2014'],
+            u'public_art': [u'2013']
+        }
+        self.assertEqual(result, expected)
+
 
 if __name__ == "__main__":
     unittest.main()
