@@ -154,5 +154,57 @@ class TestGetCountryData(TestGetDataMixin):
         self.assertEquals(result, expected)
 
 
+class TestParseConfig(unittest.TestCase):
+
+    def test_parse_config_empty(self):
+        config = ''
+        result = database.parse_config(config)
+        expected = {}
+        self.assertEquals(result, expected)
+
+    def test_parse_config(self):
+        config = '''
+countries = {
+    ["az"] = "Azerbaijan",
+    ["gw"] = "Guinea-Bissau"
+}
+
+wl["monuments"][2017] = {
+    ["az"] = {["start"] = 20170430200000, ["end"] = 20170531195959},
+    ["gw"] = {["start"] = 20170430200000, ["end"] = 20170531195959},
+}
+
+wl["monuments"][2018] = {
+    ["az"] = {["start"] = 20180430200000, ["end"] = 20180531195959},
+    ["gw"] = {["start"] = 20180430200000, ["end"] = 20180531195959},
+}
+
+'''
+        result = database.parse_config(config)
+        expected = {
+            u'monuments2017': {
+                u'Azerbaijan': {
+                    'start': 20170430200000,
+                    'end': 20170531195959,
+                },
+                u'Guinea-Bissau': {
+                    'start': 20170430200000,
+                    'end': 20170531195959,
+                },
+            },
+            u'monuments2018': {
+                u'Azerbaijan': {
+                    'start': 20180430200000,
+                    'end': 20180531195959,
+                },
+                u'Guinea-Bissau': {
+                    'start': 20180430200000,
+                    'end': 20180531195959,
+                },
+            }
+        }
+        self.assertEquals(result, expected)
+
+
 if __name__ == "__main__":
     unittest.main()
