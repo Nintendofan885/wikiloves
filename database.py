@@ -175,7 +175,21 @@ def get_data_for_category(category_name):
     return dbData
 
 
+def update_event_data(event_slug, event_configuration, db):
+    start = time.time()
+    event_data = getData(event_slug, event_configuration)
+    db[event_slug] = event_data
+    with open('db.json', 'w') as f:
+        json.dump(db, f)
+    log = 'Saved %s: %dsec, %d countries, %d uploads' % \
+        (event_slug, time.time() - start, len(event_data), sum(event_data[c].get('count', 0) for c in event_data))
+    print log
+    updateLog.append(log)
+    return db
+
+
 if __name__ == '__main__' and 'update' in sys.argv:
+    print "Fetching configuration..."
     config = getConfig(u'Module:WL_data')
     try:
         with open('db.json', 'r') as f:
@@ -183,17 +197,12 @@ if __name__ == '__main__' and 'update' in sys.argv:
     except Exception as e:
         print u'Erro ao abrir db.json:', repr(e)
         db = {}
+    print "Found %s events to process." % len(config)
 
     commonsdb = DB()
-    for WL in config:
-        start = time.time()
-        db[WL] = getData(WL, config[WL])
-        with open('db.json', 'w') as f:
-            json.dump(db, f)
-        log = 'Saved %s: %dsec, %d countries, %d uploads' % \
-            (WL, time.time() - start, len(db[WL]), sum(db[WL][c].get('count', 0) for c in db[WL]))
-        print log
-        updateLog.append(log)
+    for (event_name, event_configuration) in config.iteritems():
+        print "Fetching data for %s..." % event_name
+        db = update_event_data(event_name, event_configuration, db)
     commonsdb.conn.close()
     if updateLog:
         with io.open('update.log', 'w', encoding='utf-8') as f:
