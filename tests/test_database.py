@@ -154,6 +154,73 @@ class TestGetCountryData(TestGetDataMixin):
         self.assertEquals(result, expected)
 
 
+class TestUpdateEventData(TestGetDataMixin):
+
+    def setUp(self):
+        super(self.__class__, self).setUp()
+        patcher = mock.patch('database.write_database_as_json', autospec=True)
+        self.mock_write_database_as_json = patcher.start()
+        self.addCleanup(patcher.stop)
+
+    def test_udpate_event_data(self):
+        self.maxDiff = None
+        event_name = u'dumplings2014'
+        event_configuration = {
+            u'Azerbaijan': {
+                'start': 20140430200000,
+                'end': 20140531195959,
+            },
+            u'Guinea-Bissau': {
+                'start': 20140430200000,
+                'end': 20140531195959,
+            },
+        }
+        db = {}
+        result = database.update_event_data(event_name, event_configuration, db)
+        expected_timestamp_data = defaultdict(int)
+        expected_timestamp_data.update({'20140523': 1, '20140529': 1})
+
+        expected_base = {
+            'count': 2,
+            'usercount': 2,
+            'start': 20140430200000,
+            'userreg': 1,
+            'data': expected_timestamp_data,
+            'users': {
+                u'Alice': {
+                    'count': 1,
+                    'reg': 20140528235032,
+                    'usage': 0
+                },
+                u'Bob': {
+                    'count': 1,
+                    'reg': 20130523235032,
+                    'usage': 0
+                }
+            },
+            'usage': 0,
+            'end': 20140531195959
+        }
+
+        expected_az = expected_base.copy()
+        expected_az.update({
+            'category': u'Images_from_Wiki_Loves_Dumplings_2014_in_Azerbaijan',
+        })
+        expected_gb = expected_base.copy()
+        expected_gb.update({
+            'category': u'Images_from_Wiki_Loves_Dumplings_2014_in_Guinea-Bissau',
+        })
+
+        expected = {
+            u'dumplings2014': {
+                u'Azerbaijan': expected_az,
+                u'Guinea-Bissau': expected_gb,
+            }
+        }
+        self.assertEquals(result, expected)
+        self.mock_write_database_as_json.assert_called_once_with(expected)
+
+
 class TestParseConfig(unittest.TestCase):
 
     def test_parse_config_empty(self):
