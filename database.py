@@ -175,12 +175,16 @@ def get_data_for_category(category_name):
     return dbData
 
 
+def write_database_as_json(db):
+    with open('db.json', 'w') as f:
+        json.dump(db, f)
+
+
 def update_event_data(event_slug, event_configuration, db):
     start = time.time()
     event_data = getData(event_slug, event_configuration)
     db[event_slug] = event_data
-    with open('db.json', 'w') as f:
-        json.dump(db, f)
+    write_database_as_json(db)
     log = 'Saved %s: %dsec, %d countries, %d uploads' % \
         (event_slug, time.time() - start, len(event_data), sum(event_data[c].get('count', 0) for c in event_data))
     print log
