@@ -4,7 +4,6 @@
 import io
 import json
 import re
-import sys
 import time
 from collections import defaultdict
 from urllib import urlopen
@@ -192,7 +191,15 @@ def update_event_data(event_slug, event_configuration, db):
     return db
 
 
-if __name__ == '__main__' and 'update' in sys.argv:
+if __name__ == '__main__':
+    from argparse import ArgumentParser
+    description = "Update the database"
+    parser = ArgumentParser(description=description)
+    parser.add_argument("events", nargs='*',
+                        metavar="EVENTS",
+                        help='A list of events to update')
+    args = parser.parse_args()
+
     print "Fetching configuration..."
     config = getConfig(u'Module:WL_data')
     try:
@@ -201,13 +208,25 @@ if __name__ == '__main__' and 'update' in sys.argv:
     except Exception as e:
         print u'Erro ao abrir db.json:', repr(e)
         db = {}
-    print "Found %s events to process." % len(config)
+    print "Found %s events in the configuration." % len(config)
 
     commonsdb = DB()
-    for (event_name, event_configuration) in config.iteritems():
-        print "Fetching data for %s..." % event_name
-        db = update_event_data(event_name, event_configuration, db)
-    commonsdb.conn.close()
+
+    if args.events:
+        print "Updating only %s event(s): %s." % (len(args.events), ', '.join(args.events))
+        for event_name in args.events:
+            event_configuration = config.get(event_name)
+            if event_configuration:
+                print "Fetching data for %s..." % event_name
+                db = update_event_data(event_name, event_configuration, db)
+            else:
+                print "Invalid event: %s" % event_name
+    else:
+        print "Updating all %s events." % len(config)
+        for (event_name, event_configuration) in config.iteritems():
+            print "Fetching data for %s..." % event_name
+            db = update_event_data(event_name, event_configuration, db)
+
     if updateLog:
         with io.open('update.log', 'w', encoding='utf-8') as f:
             f.write(time.strftime('%Y%m%d%H%M%S') + '\n' + '\n'.join(updateLog))
