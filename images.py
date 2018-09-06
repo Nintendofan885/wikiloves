@@ -1,9 +1,5 @@
 # -*- coding: utf-8  -*-
 
-import os
-
-import pymysql
-
 from commons_database import DB
 from functions import get_wikiloves_category_name
 
