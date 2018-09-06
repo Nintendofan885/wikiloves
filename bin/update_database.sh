@@ -12,6 +12,6 @@ source $VIRTUAL_ENV_PATH/bin/activate
 
 echo_time "Starting database update."
 
-python database.py update
+python database.py "$@"
 
 echo_time "Done with the update!"
