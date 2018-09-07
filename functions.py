@@ -81,6 +81,7 @@ catExceptions = {
     u'Dutch Caribbean': u'the_Dutch_Caribbean',
     u'Philippines': u'the_Philippines',
     u'Seychelles': u'the_Seychelles',
+    u'United Arab Emirates': u'the_United_Arab_Emirates',
     u'United Kingdom': u'the_United_Kingdom',
     u'United States': u'the_United_States'
 }
