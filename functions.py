@@ -75,6 +75,10 @@ def get_edition_name(scope_slug, year):
     return u'%s %s' % (get_event_name(scope_slug), year)
 
 
+def get_instance_name(scope_slug, year, country):
+    return u'%s %s in %s' % (get_event_name(scope_slug), year, country)
+
+
 def get_wikiloves_category_name(event_slug, year, country):
     if (event_slug, year, country) in special_exceptions:
         return special_exceptions[(event_slug, year, country)]

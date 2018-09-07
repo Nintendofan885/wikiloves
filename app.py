@@ -17,6 +17,7 @@ from functions import (
     get_edition_name,
     get_event_name,
     get_events_data,
+    get_instance_name,
     get_instance_users_data,
     get_menu
 )
@@ -105,16 +106,16 @@ def users(name, year, country):
     if not db:
         return index()
     year = '20' + year
-    event = name + year
-    if event in db and country in db[event]:
-        eventName = u'%s %s in %s' % (get_event_name(name), year, country)
-        eventUsers = get_instance_users_data(db, event, country)
-        return render_template('users.html', title=eventName, menu=menu, name=name, year=year,
-                               country=country, data=eventUsers, starttime=db[event][country]['start'])
-    elif event in db:
+    edition_slug = name + year
+    if edition_slug in db and country in db[edition_slug]:
+        instance_name = get_instance_name(name, year, country)
+        eventUsers = get_instance_users_data(db, edition_slug, country)
+        return render_template('users.html', title=instance_name, menu=menu, name=name, year=year,
+                               country=country, data=eventUsers, starttime=db[edition_slug][country]['start'])
+    elif edition_slug in db:
         return render_template('page_not_found.html', title=u'Country not found', menu=menu)
     else:
-        return render_template('page_not_found.html', title=u'Event not found', menu=menu)
+        return render_template('page_not_found.html', title=u'Edition not found', menu=menu)
 
 
 @app.route('/country/<name>')
