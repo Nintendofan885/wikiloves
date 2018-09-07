@@ -101,7 +101,7 @@ def edition(name, year):
         return render_template('page_not_found.html', title=u'Edition not found', menu=menu)
 
 
-@app.route('/<name>/20<year>/<country>')
+@app.route('/<name>/20<year>/<country>/users')
 def users(name, year, country):
     if not db:
         return index()
@@ -112,6 +112,23 @@ def users(name, year, country):
         eventUsers = get_instance_users_data(db, edition_slug, country)
         return render_template('users.html', title=instance_name, menu=menu, name=name, year=year,
                                country=country, data=eventUsers, starttime=db[edition_slug][country]['start'])
+    elif edition_slug in db:
+        return render_template('page_not_found.html', title=u'Country not found', menu=menu)
+    else:
+        return render_template('page_not_found.html', title=u'Edition not found', menu=menu)
+
+
+@app.route('/<name>/20<year>/<country>')
+def instance(name, year, country):
+    if not db:
+        return index()
+    year = '20' + year
+    edition_slug = name + year
+    if edition_slug in db and country in db[edition_slug]:
+        instance_name = get_instance_name(name, year, country)
+        instance_daily_data = db[edition_slug][country]['data']
+        return render_template('instance.html', title=instance_name, menu=menu, name=name, year=year,
+                               country=country, daily_data=instance_daily_data, starttime=db[edition_slug][country]['start'])
     elif edition_slug in db:
         return render_template('page_not_found.html', title=u'Country not found', menu=menu)
     else:

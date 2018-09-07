@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+
+<table style="text-align:center; border-collapse:collapse; min-width:800px; margin-top:8px">
+     <tr>
+         <th>Date</th>
+         <th>Images</th>
+         <th>Joiners</th>
+         <th>Joiners registered<br/>after competition start</th>
+         {% for day, day_data in daily_data|dictsort %}<tr>
+             <td>{{ day|date }}</td>
+             <td>{{ day_data['images'] }}</td>
+             <td>{{ day_data['joiners'] }}</td>
+             <td>{{ day_data['newbie_joiners'] }} ({{ (100 * day_data['newbie_joiners'] / day_data['joiners'] if day_data['joiners'] != 0 else 0)|int }}%)</td>
+         </tr>{% endfor %}
+         <tr>
+            <td></td>
+            <td>{{ daily_data.values()|sum(attribute='images') }}</td>
+            <td>{{ daily_data.values()|sum(attribute='joiners') }}</td>
+            <td>{{ daily_data.values()|sum(attribute='newbie_joiners') }} ({{ (100 * daily_data.values()|sum(attribute='newbie_joiners') / daily_data.values()|sum(attribute='joiners') if daily_data.values()|sum(attribute='joiners') != 0 else 0)|int }}%)</td>
+        </tr>
+</table>
+{% endblock %}

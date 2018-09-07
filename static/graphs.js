@@ -71,7 +71,7 @@ function countryRow(d, i){
     line = [];
     line.push('<td><span style="display:inline-block; width:40px; height:2px; border-top:4px solid ' +
         ctr.color + '"></span></td>');
-    var countryLink = location.pathname.split('/').slice(0, -2).concat('country', ctr.name).join('/')
+    var countryLink = location.pathname.split('/').concat(ctr.name).join('/')
     line.push('<td style="background-color:#F8F8F8"><a href="' + countryLink + '">' +
         ctr.name + '</a></td>');
     var imagesLink = location.pathname.split('/').slice(0, -2).concat(
@@ -79,7 +79,7 @@ function countryRow(d, i){
     line.push('<td><a href="' + imagesLink + '">' + String(ctr.count) + '</td>');
     line.push('<td style="background-color:#F8F8F8">' + String(ctr.usage) + ' (' +
         String(Math.round(100 * ctr.usage / ctr.count)) + '%)</td>');
-    line.push('<td><a href="' + location.pathname + '/' + ctr.name.replace(/ /g, '_') + '">' +
+    line.push('<td><a href="' + location.pathname + '/' + ctr.name.replace(/ /g, '_') + '/users' + '">' +
         String(ctr.usercount) + '</a></td>');
     line.push('<td style="background-color:#F8F8F8">' + String(ctr.userreg) + ' (' +
         String(Math.round(100 * ctr.userreg / ctr.usercount)) + '%)</td>');
