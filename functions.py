@@ -34,6 +34,15 @@ def get_events_data(db):
     }
 
 
+def get_edition_data(db, edition_slug):
+    return {
+        country: {
+            field: db[edition_slug][country][field]
+            for field in db[edition_slug][country] if field != 'users'
+        } for country in db[edition_slug]
+    }
+
+
 def get_menu(db):
     return {
         name: sorted(e[-4:] for e in db if e[:-4] == name)
