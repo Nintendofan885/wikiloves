@@ -79,6 +79,30 @@ class TestGetDataMixin(unittest.TestCase):
         )
         self.addCleanup(patcher.stop)
 
+        self.expected_timestamp_data = defaultdict(int)
+        self.expected_timestamp_data.update({
+            '20140523': 1,
+            '20140529': 1,
+        })
+
+        self.images_count = 2
+        self.usercount = 2
+        self.userreg = 1
+        self.usage = 0
+
+        self.user_data = {
+            u'Alice': {
+                'count': 1,
+                'reg': 20140528235032,
+                'usage': 0
+            },
+            u'Bob': {
+                'count': 1,
+                'reg': 20130523235032,
+                'usage': 0
+            }
+        }
+
 
 class TestGetData(TestGetDataMixin):
 
@@ -89,29 +113,15 @@ class TestGetData(TestGetDataMixin):
 
         result = database.getData("Dumplings2014", competition_config)
 
-        expected_timestamp_data = defaultdict(int)
-        expected_timestamp_data.update({'20140523': 1, '20140529': 1})
-
         expected = {
             u'Brazil': {
-                'count': 2,
-                'usercount': 2,
+                'count': self.images_count,
+                'usercount': self.usercount,
                 'start': 20140501030000,
-                'userreg': 1,
-                'data': expected_timestamp_data,
-                'users': {
-                    u'Alice': {
-                        'count': 1,
-                        'reg': 20140528235032,
-                        'usage': 0
-                    },
-                    u'Bob': {
-                        'count': 1,
-                        'reg': 20130523235032,
-                        'usage': 0
-                    }
-                },
-                'usage': 0,
+                'userreg': self.userreg,
+                'data': self.expected_timestamp_data,
+                'users': self.user_data,
+                'usage': self.usage,
                 'category': u'Images_from_Wiki_Loves_Dumplings_2014_in_Brazil',
                 'end': 20140601025959
             }
@@ -125,28 +135,14 @@ class TestGetCountryData(TestGetDataMixin):
         category = u'Images_from_Wiki_Loves_Dumplings_2014_in_Brazil'
         result = database.get_country_data(category, 20140501030000, 20140601025959)
 
-        expected_timestamp_data = defaultdict(int)
-        expected_timestamp_data.update({'20140523': 1, '20140529': 1})
-
         expected = {
-            'count': 2,
-            'usercount': 2,
+            'count': self.images_count,
+            'usercount': self.usercount,
             'start': 20140501030000,
-            'userreg': 1,
-            'data': expected_timestamp_data,
-            'users': {
-                u'Alice': {
-                    'count': 1,
-                    'reg': 20140528235032,
-                    'usage': 0
-                },
-                u'Bob': {
-                    'count': 1,
-                    'reg': 20130523235032,
-                    'usage': 0
-                }
-            },
-            'usage': 0,
+            'userreg': self.userreg,
+            'data': self.expected_timestamp_data,
+            'users': self.user_data,
+            'usage': self.usage,
             'category': category,
             'end': 20140601025959
         }
@@ -177,28 +173,15 @@ class TestUpdateEventData(TestGetDataMixin):
         }
         db = {}
         result = database.update_event_data(event_name, event_configuration, db)
-        expected_timestamp_data = defaultdict(int)
-        expected_timestamp_data.update({'20140523': 1, '20140529': 1})
 
         expected_base = {
-            'count': 2,
-            'usercount': 2,
+            'count': self.images_count,
+            'usercount': self.usercount,
             'start': 20140430200000,
-            'userreg': 1,
-            'data': expected_timestamp_data,
-            'users': {
-                u'Alice': {
-                    'count': 1,
-                    'reg': 20140528235032,
-                    'usage': 0
-                },
-                u'Bob': {
-                    'count': 1,
-                    'reg': 20130523235032,
-                    'usage': 0
-                }
-            },
-            'usage': 0,
+            'userreg': self.userreg,
+            'data': self.expected_timestamp_data,
+            'users': self.user_data,
+            'usage': self.usage,
             'end': 20140531195959
         }
 
