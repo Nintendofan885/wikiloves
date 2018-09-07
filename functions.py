@@ -43,6 +43,12 @@ def get_edition_data(db, edition_slug):
     }
 
 
+def get_instance_users_data(db, edition_slug, country):
+    return sorted(
+            db[edition_slug][country]['users'].items(),
+            key=lambda i: (i[1]['count'], i[0]), reverse=True)
+
+
 def get_menu(db):
     return {
         name: sorted(e[-4:] for e in db if e[:-4] == name)

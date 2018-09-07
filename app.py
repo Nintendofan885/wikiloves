@@ -16,6 +16,7 @@ from functions import (
     get_edition_data,
     get_event_name,
     get_events_data,
+    get_instance_users_data,
     get_menu
 )
 
@@ -106,7 +107,7 @@ def users(name, year, country):
     event = name + year
     if event in db and country in db[event]:
         eventName = u'%s %s in %s' % (get_event_name(name), year, country)
-        eventUsers = sorted(db[event][country]['users'].items(), key=lambda i: (i[1]['count'], i[0]), reverse=True)
+        eventUsers = get_instance_users_data(db, event, country)
         return render_template('users.html', title=eventName, menu=menu, name=name, year=year,
                                country=country, data=eventUsers, starttime=db[event][country]['start'])
     elif event in db:

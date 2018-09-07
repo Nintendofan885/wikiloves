@@ -266,6 +266,14 @@ class TestProcessData(TestProcessDataMixin):
         }
         self.assertEqual(result, expected)
 
+    def test_get_instance_users_data(self):
+        result = functions.get_instance_users_data(self.data, 'monuments2016', 'Panama')
+        expected = [
+            (u'Edwin Bermudez', {u'reg': 20160903173639, u'usage': 0, u'count': 22}),
+            (u'Jonas David', {u'reg': 20160902064618, u'usage': 0, u'count': 4})
+        ]
+        self.assertEqual(result, expected)
+
 
 if __name__ == "__main__":
     unittest.main()
