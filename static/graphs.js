@@ -65,7 +65,7 @@ function renderBar(name, id, series){
     document.getElementById(id).innerHTML += graph + xAxis + '</svg>';
 }
 
-function countryLine(d, i){
+function countryRow(d, i){
     var evt = location.pathname.split('/').slice(-2);
     var ctr = data[d].series[i];
     line = [];
@@ -96,7 +96,7 @@ window.onload = function(){
                 data[d].series[i]['color'] = palette.color(i);
             }
             data[d].series.sort(function(a, b){return b.count - a.count});
-            for (var i = 0; i < data[d].series.length; i++) countries.innerHTML += countryLine(d, i);
+            for (var i = 0; i < data[d].series.length; i++) countries.innerHTML += countryRow(d, i);
         }
         if (data[d].type == 'line') renderLine(data[d].id, data[d].series);
         else if (data[d].type == 'bar') renderBar(data[d].name, data[d].id, data[d].series);
