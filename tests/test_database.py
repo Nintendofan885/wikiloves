@@ -2,7 +2,6 @@
 """Unit tests for database.py."""
 
 import unittest
-from collections import defaultdict
 
 import mock
 
@@ -81,12 +80,23 @@ class TestGetDataMixin(unittest.TestCase):
         )
         self.addCleanup(patcher.stop)
 
-        self.expected_timestamp_data = defaultdict(int)
-        self.expected_timestamp_data.update({
-            '20140523': 2,
-            '20140529': 1,
-            '20140530': 1
-        })
+        self.expected_timestamp_data = {
+            '20140523': {
+                'images': 2,
+                'joiners': 2,
+                'newbie_joiners': 1
+            },
+            '20140529': {
+                'images': 1,
+                'joiners': 0,
+                'newbie_joiners': 0
+            },
+            '20140530': {
+                'images': 1,
+                'joiners': 0,
+                'newbie_joiners': 0
+            }
+        }
 
         self.images_count = 4
         self.usercount = 2

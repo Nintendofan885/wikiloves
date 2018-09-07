@@ -15,7 +15,11 @@
       "userreg": 0,
       "usage": 0,
       "data": {
-        "20160903": 5
+        "20160903": {
+          "images": 5,
+          "joiners": 1,
+          "newbie_joiners": 0
+        }
       },
       "usercount": 1
     },
@@ -39,8 +43,16 @@
       "userreg": 2,
       "usage": 0,
       "data": {
-        "20160902": 4,
-        "20160903": 22
+        "20160902": {
+          "images": 4,
+          "joiners": 1,
+          "newbie_joiners": 1
+        },
+        "20160903": {
+          "images": 22,
+          "joiners": 1,
+          "newbie_joiners": 1
+        }
       },
       "usercount": 2
     }
@@ -61,7 +73,11 @@
       "userreg": 0,
       "usage": 0,
       "data": {
-        "20160903": 5
+        "20160903": {
+          "images": 5,
+          "joiners": 1,
+          "newbie_joiners": 0
+        }
       },
       "usercount": 1
     },
@@ -85,8 +101,16 @@
       "userreg": 2,
       "usage": 0,
       "data": {
-        "20160902": 4,
-        "20160903": 22
+        "20160902": {
+          "images": 4,
+          "joiners": 1,
+          "newbie_joiners": 1
+        },
+        "20160903": {
+          "images": 22,
+          "joiners": 1,
+          "newbie_joiners": 1
+        }
       },
       "usercount": 2
     }
@@ -107,7 +131,11 @@
       "userreg": 0,
       "usage": 0,
       "data": {
-        "20160903": 2
+        "20160903": {
+          "images": 2,
+          "joiners": 1,
+          "newbie_joiners": 0
+        }
       },
       "usercount": 1
     }
@@ -128,7 +156,11 @@
       "userreg": 0,
       "usage": 0,
       "data": {
-        "20130903": 2
+        "20160903": {
+          "images": 2,
+          "joiners": 1,
+          "newbie_joiners": 0
+        }
       },
       "usercount": 1
     }

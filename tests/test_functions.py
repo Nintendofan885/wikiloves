@@ -246,7 +246,11 @@ class TestProcessData(TestProcessDataMixin):
                 u'userreg': 0,
                 u'usage': 0,
                 u'data': {
-                    u'20160903': 5,
+                    u'20160903': {
+                        "images": 5,
+                        "joiners": 1,
+                        "newbie_joiners": 0,
+                    }
                 },
                 u'usercount': 1,
             },
@@ -258,8 +262,16 @@ class TestProcessData(TestProcessDataMixin):
                 u'userreg': 2,
                 u'usage': 0,
                 u'data': {
-                    u'20160902': 4,
-                    u'20160903': 22,
+                    u'20160902': {
+                        u'images': 4,
+                        u'joiners': 1,
+                        u'newbie_joiners': 1,
+                    },
+                    u'20160903': {
+                        u'images': 22,
+                        u'joiners': 1,
+                        u'newbie_joiners': 1,
+                    }
                 },
                 u'usercount': 2,
             }

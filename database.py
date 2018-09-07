@@ -5,7 +5,6 @@ import io
 import json
 import re
 import time
-from collections import defaultdict
 from urllib import urlopen
 
 from commons_database import DB
@@ -124,7 +123,7 @@ def get_country_data(category, start_time, end_time):
     if not dbData:
         return None
 
-    daily_data = defaultdict(int)  # data: {timestamp_day0: n, timestamp_day1: n,...}
+    daily_data = {}  # data: {timestamp_day0: {'images': n, 'joiners': n}, timestamp_day1: ...}
     user_data = {}  # users: {'user1': {'count': n, 'usage': n, 'reg': timestamp},...}
 
     discarded_counter = 0
@@ -135,9 +134,18 @@ def get_country_data(category, start_time, end_time):
             discarded_counter += 1
             continue
         # Conta imagens por dia
-        daily_data[str(timestamp)[0:8]] += 1
+        day = str(timestamp)[0:8]
+        if day not in daily_data:
+            daily_data[day] = {'images': 0, 'joiners': 0, 'newbie_joiners': 0}
+
+        daily_data[day]['images'] += 1
+
         if user not in user_data:
+            daily_data[day]['joiners'] += 1
+            if user_reg > start_time:
+                daily_data[day]['newbie_joiners'] += 1
             user_data[user] = {'count': 0, 'usage': 0, 'reg': user_reg}
+
         user_data[user]['count'] += 1
         if usage:
             user_data[user]['usage'] += 1

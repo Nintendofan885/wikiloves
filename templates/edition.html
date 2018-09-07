@@ -8,9 +8,9 @@ var data = [{id: "graph", type: "line", series: [
    #}usercount: {{ value['usercount'] }}, {#
    #}usage: {{ value['usage'] }}, {#
    #}userreg: {{ value['userreg'] }}, {#
-   #}data:{
-    {%- for day, uploads in value['data']|dictsort -%}
-        {{ day }}: {{ uploads }}{% if not loop.last %}, {% endif %}
+   #}data: {
+    {%- for day, daily_data in value['data']|dictsort -%}
+        {{ day }}: {{ daily_data['images'] }}{% if not loop.last %}, {% endif %}
 {%- endfor -%} }}{% if not loop.last %}, {% endif %}
 {%- endfor %}
 ]}]
