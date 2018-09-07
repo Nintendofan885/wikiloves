@@ -14,6 +14,7 @@ from functions import (
     get_country_data,
     get_country_summary,
     get_edition_data,
+    get_edition_name,
     get_event_name,
     get_events_data,
     get_instance_users_data,
@@ -84,19 +85,19 @@ def event_main(name):
 
 
 @app.route('/<name>/20<year>')
-def event_year(name, year):
+def edition(name, year):
     loadDB()
     if not db:
         return index()
     year = '20' + year
-    event = name + year
-    if event in db:
-        eventName = u'%s %s' % (get_event_name(name), year)
-        eventData = get_edition_data(db, event)
-        return render_template('event.html', title=eventName, menu=menu, name=name, year=year,
-                               data=eventData, rickshaw=True)
+    edition_slug = name + year
+    if edition_slug in db:
+        edition_name = get_edition_name(name, year)
+        edition_data = get_edition_data(db, edition_slug)
+        return render_template('edition.html', title=edition_name, menu=menu, name=name, year=year,
+                               data=edition_data, rickshaw=True)
     else:
-        return render_template('page_not_found.html', title=u'Event not found', menu=menu)
+        return render_template('page_not_found.html', title=u'Edition not found', menu=menu)
 
 
 @app.route('/<name>/20<year>/<country>')

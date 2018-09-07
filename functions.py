@@ -71,6 +71,10 @@ def get_event_name(event_slug):
     return u'Wiki Loves %s' % event_slug.replace('_', ' ').title()
 
 
+def get_edition_name(scope_slug, year):
+    return u'%s %s' % (get_event_name(scope_slug), year)
+
+
 def get_wikiloves_category_name(event_slug, year, country):
     if (event_slug, year, country) in special_exceptions:
         return special_exceptions[(event_slug, year, country)]
