@@ -107,7 +107,7 @@ def users(name, year, country):
     if not db:
         return index()
     year = '20' + year
-    name = normalize_country_name(name)
+    country = normalize_country_name(country)
     edition_slug = name + year
     if edition_slug in db and country in db[edition_slug]:
         instance_name = get_instance_name(name, year, country)
