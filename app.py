@@ -19,7 +19,8 @@ from functions import (
     get_events_data,
     get_instance_name,
     get_instance_users_data,
-    get_menu
+    get_menu,
+    normalize_country_name
 )
 
 app = Flask(__name__)
@@ -106,6 +107,7 @@ def users(name, year, country):
     if not db:
         return index()
     year = '20' + year
+    name = normalize_country_name(name)
     edition_slug = name + year
     if edition_slug in db and country in db[edition_slug]:
         instance_name = get_instance_name(name, year, country)
@@ -124,6 +126,7 @@ def instance(name, year, country):
         return index()
     year = '20' + year
     edition_slug = name + year
+    country = normalize_country_name(country)
     if edition_slug in db and country in db[edition_slug]:
         instance_name = get_instance_name(name, year, country)
         instance_daily_data = db[edition_slug][country]['data']
@@ -137,6 +140,7 @@ def instance(name, year, country):
 
 @app.route('/country/<name>')
 def country(name):
+    name = normalize_country_name(name)
     if name in country_data:
         return render_template('country.html', title=u'Wiki Loves Competitions in ' + name, menu=menu,
                                data=country_data[name], country=name)

@@ -62,6 +62,10 @@ def get_country_summary(country_data):
             for c in country_data}
 
 
+def normalize_country_name(country_name):
+    return country_name.replace('_', ' ')
+
+
 def get_event_name(event_slug):
     """
     Generate a name from the label.

@@ -45,6 +45,34 @@ class TestGetEventName(unittest.TestCase):
         self.assertEqual(result, expected)
 
 
+class TestNormalizeCountryName(unittest.TestCase):
+
+    def test_normalize_country_name_one_word(self):
+        result = functions.normalize_country_name('Albania')
+        expected = 'Albania'
+        self.assertEqual(result, expected)
+
+    def test_normalize_country_name_two_words_with_underscores(self):
+        result = functions.normalize_country_name('United_States')
+        expected = 'United States'
+        self.assertEqual(result, expected)
+
+    def test_normalize_country_name_two_words_with_spaces(self):
+        result = functions.normalize_country_name('United States')
+        expected = 'United States'
+        self.assertEqual(result, expected)
+
+    def test_normalize_country_name_three_words_with_underscores(self):
+        result = functions.normalize_country_name('United_Arab_Emirates')
+        expected = 'United Arab Emirates'
+        self.assertEqual(result, expected)
+
+    def test_normalize_country_name_three_words_with_spaces(self):
+        result = functions.normalize_country_name('United Arab Emirates')
+        expected = 'United Arab Emirates'
+        self.assertEqual(result, expected)
+
+
 class TestGetCountrySummary(unittest.TestCase):
 
     def test_get_country_summary(self):
