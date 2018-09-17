@@ -1,12 +1,13 @@
 # -*- coding: utf-8  -*-
 
 from commons_database import DB
-from functions import get_wikiloves_category_name
+from functions import get_wikiloves_category_name, normalize_country_name
 
 
 def makeQuery(args):
     if u'event' in args and u'year' in args and u'country' in args:
-        category = get_wikiloves_category_name(args['event'].title(), args['year'], args['country'])
+        country = normalize_country_name(args['country'])
+        category = get_wikiloves_category_name(args['event'].title(), args['year'], country)
         queryArgs = (category,)
     else:
         return
