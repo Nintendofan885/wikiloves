@@ -1,0 +1,11 @@
+[
+    {
+      "name" : "wikiloves",
+      "title" : "Wiki Loves Competitions Tools",
+      "description" : "Tools for Wiki Loves Photo Competitions: statistics and progress",
+      "url" : "https://tools.wmflabs.org/wikiloves/",
+      "keywords" : "wlm, wikilovesmonuments, wle, wikilovesearth, stats, monuments-database",
+      "author" : "Danilo.mac, JeanFred",
+      "repository" : "https://github.com/JeanFred/wikiloves"
+    }
+]
