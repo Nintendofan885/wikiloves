@@ -2,3 +2,4 @@
 db.json
 update.log
 .tox
+*.retry
