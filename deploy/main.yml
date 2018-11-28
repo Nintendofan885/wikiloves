@@ -60,7 +60,7 @@
         - {name: 'UPDATE_SCRIPT', value: '/data/project/wikiloves/wikiloves/bin/update_database.sh'}
         - {name: 'UPDATE_LOG_FILE', value: '/data/project/wikiloves/logs/update-database.log'}
         - {name: 'CRONTAB_LOG_FILE', value: '/data/project/wikiloves/logs/crontab.log'}
-        - {name: 'JSUB_PARAMS', value: '-l release=trusty -mem 1000m -once -j y'}
+        - {name: 'JSUB_PARAMS', value: '-mem 1000m -once -j y'}
       tags:
         - crontab
 
