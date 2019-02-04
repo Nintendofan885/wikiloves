@@ -87,14 +87,14 @@ def get_wikiloves_category_name(event_slug, year, country):
     if (event_slug, year, country) in special_exceptions:
         return special_exceptions[(event_slug, year, country)]
 
-    event = get_event_name(event_slug)
+    edition = get_edition_name(event_slug, year)
     template = get_event_category_template()
     country_name = catExceptions.get(country, country)
-    return template.format(event=event, year=year, country=country_name).replace(' ', u'_')
+    return template.format(edition=edition, country=country_name).replace(' ', u'_')
 
 
 def get_event_category_template():
-    return u'Images_from_{event}_{year}_in_{country}'
+    return u'Images_from_{edition}_in_{country}'
 
 
 catExceptions = {
