@@ -72,11 +72,13 @@ def get_event_name(event_slug):
 
     Returns title case with underscore replaced.
     """
-    return u'Wiki Loves %s' % event_slug.replace('_', ' ').title()
+    default = u'Wiki Loves %s' % event_slug.replace('_', ' ').title()
+    return event_exceptions.get(event_slug.lower(), default)
 
 
 def get_edition_name(scope_slug, year):
-    return u'%s %s' % (get_event_name(scope_slug), year)
+    default = u'%s %s' % (get_event_name(scope_slug), year)
+    return edition_exceptions.get((scope_slug.lower(), str(year)), default)
 
 
 def get_instance_name(scope_slug, year, country):
@@ -97,6 +99,9 @@ def get_event_category_template():
     return u'Images_from_{edition}_in_{country}'
 
 
+event_exceptions = {
+}
+
 catExceptions = {
     u'Armenia': u'Armenia_&_Nagorno-Karabakh',
     u'Netherlands': u'the_Netherlands',
@@ -111,6 +116,9 @@ catExceptions = {
     u'United Arab Emirates': u'the_United_Arab_Emirates',
     u'United Kingdom': u'the_United_Kingdom',
     u'United States': u'the_United_States'
+}
+
+edition_exceptions = {
 }
 
 special_exceptions = {
