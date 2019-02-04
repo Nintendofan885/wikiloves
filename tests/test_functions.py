@@ -45,6 +45,19 @@ class TestGetEventName(unittest.TestCase):
         self.assertEqual(result, expected)
 
 
+class TestGetEditionName(unittest.TestCase):
+
+    def test_get_edition_name_classic(self):
+        result = functions.get_edition_name('monuments', 2016)
+        expected = 'Wiki Loves Monuments 2016'
+        self.assertEqual(result, expected)
+
+    def test_get_edition_name_several_words(self):
+        result = functions.get_edition_name('public_art', 2016)
+        expected = 'Wiki Loves Public Art 2016'
+        self.assertEqual(result, expected)
+
+
 class TestNormalizeCountryName(unittest.TestCase):
 
     def test_normalize_country_name_one_word(self):
