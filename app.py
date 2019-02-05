@@ -30,7 +30,7 @@ dbtime = None
 
 
 def loadDB():
-    global db, menu, events_data, country_data, dbtime
+    global db, menu, events_data, events_names, country_data, dbtime
     mtime = getmtime('db.json')
     if dbtime and dbtime == mtime:
         return
@@ -42,6 +42,7 @@ def loadDB():
         db = None
     menu = get_menu(db)
     events_data = get_events_data(db)
+    events_names = {slug: get_event_name(slug) for slug in events_data.keys()}
     country_data = get_country_data(db)
 
 
@@ -51,8 +52,9 @@ loadDB()
 @app.route('/')
 def index():
     countries = get_country_summary(country_data)
+
     return render_template('mainpage.html', title=u'Wiki Loves Competitions Tools', menu=menu,
-                           data=events_data, countries=countries)
+                           data=events_data, events_names=events_names, countries=countries)
 
 
 @app.route('/log')
@@ -143,7 +145,7 @@ def country(name):
     name = normalize_country_name(name)
     if name in country_data:
         return render_template('country.html', title=u'Wiki Loves Competitions in ' + name, menu=menu,
-                               data=country_data[name], country=name)
+                               data=country_data[name], events_names=events_names, country=name)
     else:
         return render_template('page_not_found.html', title=u'Country not found', menu=menu)
 
