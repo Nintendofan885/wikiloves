@@ -164,5 +164,30 @@
       },
       "usercount": 1
     }
+  },
+  "science2017": {
+    "Estonia": {
+      "count": 9,
+      "category": "Images_from_Wiki_Science_Competition_2017_in_Estonia",
+      "end": 20171215220000,
+      "users": {
+        "Baz": {
+          "count": 2,
+          "usage": 0,
+          "reg": 20171114205959
+        }
+      },
+      "start": 20171031220000,
+      "userreg": 0,
+      "usage": 0,
+      "data": {
+        "20171130": {
+          "images": 2,
+          "joiners": 1,
+          "newbie_joiners": 1
+        }
+      },
+      "usercount": 1
+    }
   }
 }

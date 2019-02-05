@@ -25,6 +25,16 @@ class TestGetWikilovesCategoryName(unittest.TestCase):
         expected = u'Media_from_WikiDaheim_2017_in_Austria/Cultural_heritage_monuments'
         self.assertEqual(result, expected)
 
+    def test_get_wikiloves_category_name_using_event_exception(self):
+        result = functions.get_wikiloves_category_name("Science", "2017", "Estonia")
+        expected = u'Images_from_Wiki_Science_Competition_2017_in_Estonia'
+        self.assertEqual(result, expected)
+
+    def test_get_wikiloves_category_name_using_edition_exception(self):
+        result = functions.get_wikiloves_category_name("Science", "2015", "Estonia")
+        expected = u'Images_from_European_Science_Photo_Competition_2015_in_Estonia'
+        self.assertEqual(result, expected)
+
 
 class TestGetEventName(unittest.TestCase):
 
@@ -44,6 +54,11 @@ class TestGetEventName(unittest.TestCase):
         expected = 'Wiki Loves Public Art'
         self.assertEqual(result, expected)
 
+    def test_get_event_name_wikiloves_exception(self):
+        result = functions.get_event_name('science')
+        expected = 'Wiki Science Competition'
+        self.assertEqual(result, expected)
+
 
 class TestGetEditionName(unittest.TestCase):
 
@@ -55,6 +70,11 @@ class TestGetEditionName(unittest.TestCase):
     def test_get_edition_name_several_words(self):
         result = functions.get_edition_name('public_art', 2016)
         expected = 'Wiki Loves Public Art 2016'
+        self.assertEqual(result, expected)
+
+    def test_get_edition_name_exception(self):
+        result = functions.get_edition_name('science', 2015)
+        expected = 'European_Science_Photo_Competition_2015'
         self.assertEqual(result, expected)
 
 
@@ -145,9 +165,9 @@ class TestGetCountrySummary(unittest.TestCase):
         }
         result = functions.get_country_summary(country_data)
         expected = {
-            'Benin': [None, None, ['2014'], None],
-            'Panama': [['2016'], ['2016'], None, None],
-            'Turkey': [['2015'], ['2016', '2017'], None, None]
+            'Benin': [None, None, ['2014'], None, None],
+            'Panama': [['2016'], ['2016'], None, None, None],
+            'Turkey': [['2015'], ['2016', '2017'], None, None, None]
         }
         self.assertEqual(result, expected)
 
@@ -179,6 +199,16 @@ class TestProcessData(TestProcessDataMixin):
                 u'africa': {
                     u'2014': {
                         'count': 5,
+                        'usage': 0,
+                        'usercount': 1,
+                        'userreg': 0
+                    }
+                }
+            },
+            u'Estonia': {
+                u'science': {
+                    u'2017': {
+                        'count': 9,
                         'usage': 0,
                         'usercount': 1,
                         'userreg': 0
@@ -262,6 +292,15 @@ class TestProcessData(TestProcessDataMixin):
                     'usercount': 1,
                     'userreg': 0
                 }
+            },
+            u'science': {
+                u'2017': {
+                    'count': 9,
+                    'country_count': 1,
+                    'usage': 0,
+                    'usercount': 1,
+                    'userreg': 0
+                }
             }
         }
         self.assertEqual(result, expected)
@@ -272,7 +311,8 @@ class TestProcessData(TestProcessDataMixin):
             u'earth': [u'2015'],
             u'monuments': [u'2016'],
             u'africa': [u'2014'],
-            u'public_art': [u'2013']
+            u'public_art': [u'2013'],
+            u'science': [u'2017']
         }
         self.assertEqual(result, expected)
 

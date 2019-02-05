@@ -6,6 +6,7 @@ EVENTS = [
     'monuments',
     'africa',
     'public_art',
+    'science',
 ]
 
 
@@ -100,6 +101,7 @@ def get_event_category_template():
 
 
 event_exceptions = {
+    u'science': 'Wiki Science Competition',
 }
 
 catExceptions = {
@@ -119,10 +121,14 @@ catExceptions = {
 }
 
 edition_exceptions = {
+    ("science", "2015"): 'European_Science_Photo_Competition_2015',
 }
 
 special_exceptions = {
     ("Monuments", "2018", "Austria"): 'Media_from_WikiDaheim_2018_in_Austria/Cultural_heritage_monuments',
     ("Monuments", "2017", "Austria"): 'Media_from_WikiDaheim_2017_in_Austria/Cultural_heritage_monuments',
     ("Monuments", "2013", "Armenia"): 'Images_from_Wiki_Loves_Monuments_2013_in_Armenia',
+    ("Science", "2013", "Estonia"): 'Images_from_Teadusfoto_2013',
+    ("Science", "2012", "Estonia"): 'Images_from_Teadusfoto_2012',
+    ("Science", "2011", "Estonia"): 'Images_from_Teadusfoto_2011',
 }
