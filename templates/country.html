@@ -2,8 +2,8 @@
 {% block head %}
         <script>
 var data = [
-{%- for name, series in data|dictsort %}
-{id: "graph-{{ name }}", type: "bar", name: "{{ name }}", series: [
+{%- for scope, series in data|dictsort %}
+{id: "graph-{{ scope }}", type: "bar", name: "{{ scope }}", series: [
     {% for year, d in series|dictsort -%}
     {year: {{ year }}, {#
    #}count: {{ d['count'] }}, {#
@@ -17,27 +17,27 @@ var data = [
 	</script>
 {% endblock %}
 {% block content %}
-{% for name, series in data|dictsort %}
-<h2>Wiki Loves {{ name|replace("_", " ")|title }}</h2><hr/>
+{% for scope, series in data|dictsort %}
+<h2>Wiki Loves {{ scope|replace("_", " ")|title }}</h2><hr/>
 {% include "contest_logo.html" %}
-<div id="graph-{{ name }}">
+<div id="graph-{{ scope }}">
 </div>
 <table style="text-align:center; border-collapse:collapse; min-width:500px; margin-top:8px">
     <tr>
         <th>Year</th>
-        <th style="background-color:#{% if name == 'earth' %}339966{% else -%}
+        <th style="background-color:#{% if scope == 'earth' %}339966{% else -%}
             8F0000{% endif %}; color:white">Uploads</th>
-        <th style="background-color:#{% if name == 'earth' %}45E695{% else -%}
+        <th style="background-color:#{% if scope == 'earth' %}45E695{% else -%}
             E62E2E; color:white{% endif %}">Images used<br/>in the wikis</th>
         <th style="background-color:#2266AA; color:white">Uploaders</th>
         <th style="background-color:#5CA3E6; color:white">Uploaders registered<br/>after competition start</th>
     </tr>
     {% for year, d in series|dictsort -%}
     <tr>
-        <td><a href="{{ url_for('.index') }}{{ name }}/{{ year }}">{{ year }}</a></td>
-        <td style="background-color:#F8F8F8"><a href="{{ url_for('index') }}images?event={{ name }}&year={{ year }}&country={{ country }}">{{ d['count'] }}</a></td>
+        <td><a href="{{ url_for('.index') }}{{ scope }}/{{ year }}">{{ year }}</a></td>
+        <td style="background-color:#F8F8F8"><a href="{{ url_for('index') }}images?event={{ scope }}&year={{ year }}&country={{ country }}">{{ d['count'] }}</a></td>
         <td>{{ d['usage'] }} ({{ (100 * d['usage'] / d['count'] if d['count'] != 0 else 0)|int }}%)</td>
-        <td style="background-color:#F8F8F8"><a href="{{ url_for('users', name=name, year=year[-2:], country=country) }} ">{{ d['usercount'] }}</td>
+        <td style="background-color:#F8F8F8"><a href="{{ url_for('users', scope=scope, year=year[-2:], country=country) }} ">{{ d['usercount'] }}</td>
         <td>{{ d['userreg'] }} ({{ (100 * d['userreg'] / d['usercount'] if d['usercount'] != 0 else 0)|int }}%)</td>
     </tr>{% endfor %}
 </table><br/><br/>

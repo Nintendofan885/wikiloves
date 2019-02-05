@@ -2,8 +2,8 @@
 {% block head %}
         <script>
 var data = [
-{%- for name, series in data|dictsort %}
-{id: "graph-{{ name }}", type: "bar", name: "{{ name }}", series: [
+{%- for scope, series in data|dictsort %}
+{id: "graph-{{ scope }}", type: "bar", name: "{{ scope }}", series: [
     {% for year, d in series|dictsort -%}
     {year: {{ year }}, {#
    #}count: {{ d['count'] }}, {#
@@ -26,10 +26,10 @@ var data = [
     ('public_art', '#004B71', '#ABE3FF' ),
 ] %}
 
-{% for name, bg_color_1, bg_color_2 in contests %}
-<h2>Wiki Loves {{ name|replace("_", " ")|title }}</h2><hr/>
+{% for scope, bg_color_1, bg_color_2 in contests %}
+<h2>Wiki Loves {{ scope|replace("_", " ")|title }}</h2><hr/>
 {% include "contest_logo.html" %}
-<div id="graph-{{ name }}"></div><br/>
+<div id="graph-{{ scope }}"></div><br/>
 <table style="text-align:center; border-collapse:collapse; min-width:500px; margin-top:8px">
     <tr>
         <th>Year</th>
@@ -39,9 +39,9 @@ var data = [
         <th style="background-color:#2266AA; color:white">Uploaders</th>
         <th style="background-color:#5CA3E6; color:white">Uploaders registered<br/>after competition start</th>
     </tr>
-    {% for year, d in  data[name]|dictsort -%}
+    {% for year, d in  data[scope]|dictsort -%}
     <tr>
-        <td><a href="{{ url_for('index') }}{{ name }}/{{ year }}">{{ year }}</a></td>
+        <td><a href="{{ url_for('index') }}{{ scope }}/{{ year }}">{{ year }}</a></td>
         <td>{{ d['country_count'] }}</td>
         <td style="background-color:#F8F8F8">{{ d['count'] }}</td>
         <td>{{ d['usage'] }} ({{ (100 * d['usage'] / d['count'] if d['count'] != 0 else 0)|int }}%)</td>
@@ -56,8 +56,8 @@ var data = [
 <table style="text-align:center; border-collapse:collapse; min-width:400px; margin-top:8px">
     <tr>
         <th>Country</th>
-        {% for name, bg_color_1, _ in contests %}
-        <th style="background-color:{{ bg_color_1 }}; color:white">Wiki Loves {{ name|replace("_", " ")|title }}</th>
+        {% for scope, bg_color_1, _ in contests %}
+        <th style="background-color:{{ bg_color_1 }}; color:white">Wiki Loves {{ scope|replace("_", " ")|title }}</th>
         {% endfor %}
     </tr>
     {%- for c, events in countries|dictsort %}

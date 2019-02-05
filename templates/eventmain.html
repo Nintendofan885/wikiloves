@@ -2,8 +2,8 @@
 {% block head %}
         <script>
 var data = [
-{id: "graph-{{ name }}", type: "bar", name: "{{ name }}", series: [
-    {% for year, d in data[name]|dictsort -%}
+{id: "graph-{{ scope }}", type: "bar", name: "{{ scope }}", series: [
+    {% for year, d in data[scope]|dictsort -%}
     {year: {{ year }}, {#
    #}count: {{ d['count'] }}, {#
    #}usage: {{ d['usage'] }}, {#
@@ -12,7 +12,7 @@ var data = [
     {% endfor -%}
 ]},
 {%- for country, series in data['countries']|dictsort %}
-{id: "graph{{ loop.index }}", type: "bar", name: "{{ name }}", series: [
+{id: "graph{{ loop.index }}", type: "bar", name: "{{ scope }}", series: [
     {% for year, d in series|dictsort -%}
     {year: {{ year }}, {#
    #}count: {{ d['count'] }}, {#
@@ -27,21 +27,21 @@ var data = [
 {% endblock %}
 {% block content %}
 {% include "contest_logo.html" %}
-<div id="graph-{{ name }}"></div>
+<div id="graph-{{ scope }}"></div>
 <table style="text-align:center; border-collapse:collapse; min-width:500px; margin-top:8px">
     <tr>
         <th>Year</th>
         <th>Countries</th>
-        <th style="background-color:#{% if name == 'earth' %}339966{% else -%}
+        <th style="background-color:#{% if scope == 'earth' %}339966{% else -%}
             8F0000{% endif %}; color:white">Uploads</th>
-        <th style="background-color:#{% if name == 'earth' %}45E695{% else -%}
+        <th style="background-color:#{% if scope == 'earth' %}45E695{% else -%}
             E62E2E; color:white{% endif %}">Images used<br/>in the wikis</th>
         <th style="background-color:#2266AA; color:white">Uploaders</th>
         <th style="background-color:#5CA3E6; color:white">Uploaders registered<br/>after competition start</th>
     </tr>
-    {% for year, d in data[name]|dictsort -%}
+    {% for year, d in data[scope]|dictsort -%}
     <tr>
-        <td><a href="{{ url_for('index') }}{{ name }}/{{ year }}">{{ year }}</a></td>
+        <td><a href="{{ url_for('index') }}{{ scope }}/{{ year }}">{{ year }}</a></td>
         <td style="background-color:#F8F8F8">{{ d['country_count'] }}</td>
         <td style="background-color:#F8F8F8">{{ d['count'] }}</td>
         <td>{{ d['usage'] }} ({{ (100 * d['usage'] / d['count'] if d['count'] != 0 else 0)|int }}%)</td>
@@ -57,19 +57,19 @@ var data = [
 <table style="text-align:center; border-collapse:collapse; min-width:500px; margin-top:8px">
     <tr>
         <th>Year</th>
-        <th style="background-color:#{% if name == 'earth' %}339966{% else -%}
+        <th style="background-color:#{% if scope == 'earth' %}339966{% else -%}
             8F0000{% endif %}; color:white">Uploads</th>
-        <th style="background-color:#{% if name == 'earth' %}45E695{% else -%}
+        <th style="background-color:#{% if scope == 'earth' %}45E695{% else -%}
             E62E2E; color:white{% endif %}">Images used<br/>in the wikis</th>
         <th style="background-color:#2266AA; color:white">Uploaders</th>
         <th style="background-color:#5CA3E6; color:white">Uploaders registered<br/>after competition start</th>
     </tr>
     {% for year, d in cdata|dictsort -%}
     <tr>
-        <td><a href="{{ url_for('instance', name=name, year=year[-2:], country=country) }}">{{ year }}</td>
-        <td style="background-color:#F8F8F8"><a href="{{ url_for('index') }}images?event={{ name }}&year={{ year }}&country={{ country }}">{{ d['count'] }}</a></td>
+        <td><a href="{{ url_for('instance', scope=scope, year=year[-2:], country=country) }}">{{ year }}</td>
+        <td style="background-color:#F8F8F8"><a href="{{ url_for('index') }}images?event={{ scope }}&year={{ year }}&country={{ country }}">{{ d['count'] }}</a></td>
         <td>{{ d['usage'] }} ({{ (100 * d['usage'] / d['count'] if d['count'] != 0 else 0)|int }}%)</td>
-        <td style="background-color:#F8F8F8"><a href="{{ url_for('users', name=name, year=year[-2:], country=country) }} ">{{ d['usercount'] }}</td>
+        <td style="background-color:#F8F8F8"><a href="{{ url_for('users', scope=scope, year=year[-2:], country=country) }} ">{{ d['usercount'] }}</td>
         <td>{{ d['userreg'] }} ({{ (100 * d['userreg'] / d['usercount'] if d['usercount'] != 0 else 0)|int }}%)</td>
     </tr>{% endfor %}
 </table><br/><br/>

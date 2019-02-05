@@ -68,51 +68,51 @@ def logpage():
     return render_template('log.html', title=u'Update log', menu=menu, time=timestamp, log=log)
 
 
-# All routes are explicit as we cannot just route /<name>/ as it would also route eg /images/
-@app.route('/monuments', defaults={'name': 'monuments'})
-@app.route('/earth', defaults={'name': 'earth'})
-@app.route('/africa', defaults={'name': 'africa'})
-@app.route('/public_art', defaults={'name': 'public_art'})
-def event_main(name):
+# All routes are explicit as we cannot just route /<scope>/ as it would also route eg /images/
+@app.route('/monuments', defaults={'scope': 'monuments'})
+@app.route('/earth', defaults={'scope': 'earth'})
+@app.route('/africa', defaults={'scope': 'africa'})
+@app.route('/public_art', defaults={'scope': 'public_art'})
+def event_main(scope):
     if not db:
         return index()
-    if name in events_data:
-        eventName = get_event_name(name)
-        eventData = {name: {y: v for y, v in events_data[name].iteritems()}}
+    if scope in events_data:
+        eventName = get_event_name(scope)
+        eventData = {scope: {y: v for y, v in events_data[scope].iteritems()}}
         eventData.update(countries={country: country_data[country][event] for country in country_data
-                                    for event in country_data[country] if event == name})
-        return render_template('eventmain.html', title=eventName, menu=menu, name=name, data=eventData)
+                                    for event in country_data[country] if event == scope})
+        return render_template('eventmain.html', title=eventName, menu=menu, scope=scope, data=eventData)
     else:
         return render_template('page_not_found.html', title=u'Event not found', menu=menu)
 
 
-@app.route('/<name>/20<year>')
-def edition(name, year):
+@app.route('/<scope>/20<year>')
+def edition(scope, year):
     loadDB()
     if not db:
         return index()
     year = '20' + year
-    edition_slug = name + year
+    edition_slug = scope + year
     if edition_slug in db:
-        edition_name = get_edition_name(name, year)
+        edition_name = get_edition_name(scope, year)
         edition_data = get_edition_data(db, edition_slug)
-        return render_template('edition.html', title=edition_name, menu=menu, name=name, year=year,
+        return render_template('edition.html', title=edition_name, menu=menu,
                                data=edition_data, rickshaw=True)
     else:
         return render_template('page_not_found.html', title=u'Edition not found', menu=menu)
 
 
-@app.route('/<name>/20<year>/<country>/users')
-def users(name, year, country):
+@app.route('/<scope>/20<year>/<country>/users')
+def users(scope, year, country):
     if not db:
         return index()
     year = '20' + year
     country = normalize_country_name(country)
-    edition_slug = name + year
+    edition_slug = scope + year
     if edition_slug in db and country in db[edition_slug]:
-        instance_name = get_instance_name(name, year, country)
+        instance_name = get_instance_name(scope, year, country)
         eventUsers = get_instance_users_data(db, edition_slug, country)
-        return render_template('users.html', title=instance_name, menu=menu, name=name, year=year,
+        return render_template('users.html', title=instance_name, menu=menu, scope=scope, year=year,
                                country=country, data=eventUsers, starttime=db[edition_slug][country]['start'])
     elif edition_slug in db:
         return render_template('page_not_found.html', title=u'Country not found', menu=menu)
@@ -120,18 +120,18 @@ def users(name, year, country):
         return render_template('page_not_found.html', title=u'Edition not found', menu=menu)
 
 
-@app.route('/<name>/20<year>/<country>')
-def instance(name, year, country):
+@app.route('/<scope>/20<year>/<country>')
+def instance(scope, year, country):
     if not db:
         return index()
     year = '20' + year
-    edition_slug = name + year
+    edition_slug = scope + year
     country = normalize_country_name(country)
     if edition_slug in db and country in db[edition_slug]:
-        instance_name = get_instance_name(name, year, country)
+        instance_name = get_instance_name(scope, year, country)
         instance_daily_data = db[edition_slug][country]['data']
-        return render_template('instance.html', title=instance_name, menu=menu, name=name, year=year,
-                               country=country, daily_data=instance_daily_data, starttime=db[edition_slug][country]['start'])
+        return render_template('instance.html', title=instance_name, menu=menu,
+                               daily_data=instance_daily_data, starttime=db[edition_slug][country]['start'])
     elif edition_slug in db:
         return render_template('page_not_found.html', title=u'Country not found', menu=menu)
     else:
