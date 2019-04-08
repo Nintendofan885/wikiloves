@@ -12,11 +12,17 @@ EVENTS = [
 
 def get_country_data(db):
     country_data = {}
-    for e in db:
-        for c in db[e]:
-            country_data.setdefault(c, {}).setdefault(e[:-4], {}).update({e[-4:]: {
-                'count': db[e][c]['count'], 'usercount': db[e][c]['usercount'],
-                'usage': db[e][c]['usage'], 'userreg': db[e][c]['userreg']}})
+    for edition_slug in db:
+        scope_slug = edition_slug[:-4]
+        year = edition_slug[-4:]
+        for country in db[edition_slug]:
+            country_data.setdefault(country, {}).setdefault(scope_slug, {}).update({year: {
+                'count': db[edition_slug][country]['count'],
+                'usercount': db[edition_slug][country]['usercount'],
+                'usage': db[edition_slug][country]['usage'],
+                'userreg': db[edition_slug][country]['userreg']}
+                }
+            )
     return country_data
 
 
