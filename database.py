@@ -83,7 +83,8 @@ dbquery = u'''SELECT
  INNER JOIN page ON cl_from = page_id
  INNER JOIN image ON page_title = img_name
  LEFT JOIN oldimage ON image.img_name = oldimage.oi_name AND oldimage.oi_timestamp = (SELECT MIN(o.oi_timestamp) FROM oldimage o WHERE o.oi_name = image.img_name)
- LEFT JOIN user ON user.user_id = COALESCE(oldimage.oi_user, image.img_user)
+ LEFT JOIN actor ON actor.actor_id = COALESCE(oldimage.oi_actor, image.img_actor)
+ LEFT JOIN user ON user.user_id = actor.actor_user
 '''
 
 
