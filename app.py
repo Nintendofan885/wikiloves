@@ -20,6 +20,7 @@ from functions import (
     get_instance_name,
     get_instance_users_data,
     get_menu,
+    get_wikiloves_category_name,
     normalize_country_name
 )
 
@@ -129,11 +130,12 @@ def instance(scope, year, country):
         return index()
     year = '20' + year
     edition_slug = scope + year
+    category_name = get_wikiloves_category_name(scope, year, country)
     country = normalize_country_name(country)
     if edition_slug in db and country in db[edition_slug]:
         instance_name = get_instance_name(scope, year, country)
         instance_daily_data = db[edition_slug][country]['data']
-        return render_template('instance.html', title=instance_name, menu=menu,
+        return render_template('instance.html', title=instance_name, menu=menu, category_name=category_name,
                                daily_data=instance_daily_data, starttime=db[edition_slug][country]['start'])
     elif edition_slug in db:
         return render_template('page_not_found.html', title=u'Country not found', menu=menu)
@@ -176,7 +178,7 @@ def download():
 def date_filter(s):
     if type(s) == int:
         s = str(s)
-    return '%s.%s.%s' % (s[6:8], s[4:6], s[0:4])
+    return '%s-%s-%s' % (s[0:4], s[4:6], s[6:8])
 
 
 @app.errorhandler(404)

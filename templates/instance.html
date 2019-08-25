@@ -10,7 +10,11 @@
          <th>Joiners</th>
          <th>Joiners registered<br/>after competition start</th>
          {% for day, day_data in daily_data|dictsort %}<tr>
-             <td>{{ day|date }}</td>
+             <td>
+                <a href="https://tools.wmflabs.org/heritage/tools/daily-uploads/daily-uploads.html?date={{ day|date() }}&category={{ category_name }}&load=true">
+                    {{ day|date() }}
+                </a>
+            </td>
              <td>{{ day_data['images'] }}</td>
              <td>{{ day_data['joiners'] }}</td>
              <td>{{ day_data['newbie_joiners'] }} ({{ (100 * day_data['newbie_joiners'] / day_data['joiners'] if day_data['joiners'] != 0 else 0)|int }}%)</td>
