@@ -131,6 +131,7 @@ edition_exceptions = {
 }
 
 special_exceptions = {
+    ("Monuments", "2019", "Austria"): 'Media_from_WikiDaheim_2019_in_Austria/Cultural_heritage_monuments',
     ("Monuments", "2018", "Austria"): 'Media_from_WikiDaheim_2018_in_Austria/Cultural_heritage_monuments',
     ("Monuments", "2017", "Austria"): 'Media_from_WikiDaheim_2017_in_Austria/Cultural_heritage_monuments',
     ("Monuments", "2013", "Armenia"): 'Images_from_Wiki_Loves_Monuments_2013_in_Armenia',
