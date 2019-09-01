@@ -111,7 +111,7 @@ def getData(name, data):
         if country_data:
             result_data[country_name] = country_data
         else:
-            updateLog.append(u'%s in %s is configurated, but no file was found in [[Category:%s]]' %
+            updateLog.append(u'%s in %s is configured, but no file was found in [[Category:%s]]' %
                              (name, country_name, cat.replace(u'_', u' ')))
     return result_data
 
