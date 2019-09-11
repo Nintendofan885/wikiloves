@@ -71,6 +71,7 @@ function countryRow(d, i){
     line = [];
     line.push('<td><span style="display:inline-block; width:40px; height:2px; border-top:4px solid ' +
         ctr.color + '"></span></td>');
+    line.push('<td align="right">' + (i + 1) + '</td>');
     var countryLink = location.pathname.split('/').concat(ctr.name).join('/')
     line.push('<td style="background-color:#F8F8F8"><a href="' + countryLink + '">' +
         ctr.name + '</a></td>');
